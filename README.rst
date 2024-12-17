@@ -8,6 +8,8 @@ Loads a Langchain LLM by model name as a string.
 Usage
 ==========
 
+Load the LLM with the `llmloader.load` function. e.g.
+
 .. code-block:: python
 
     import llmloader
@@ -17,6 +19,8 @@ Usage
 
 CLI
 ==========
+
+You can test out prompts and models on the command line.
 
 .. code-block:: bash
     
