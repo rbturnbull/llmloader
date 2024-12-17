@@ -77,6 +77,7 @@ class ChatLlama3(BaseChatModel):
 
 class LlamaLoader(HuggingFaceLoader):
     def __call__(
+        self,            
         model:str,
         temperature:float|None=None, 
         api_key:str="",

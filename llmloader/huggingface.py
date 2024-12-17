@@ -6,6 +6,7 @@ from .loader import Loader
 
 class HuggingFaceLoader(Loader):
     def __call__(
+        self,            
         model:str,
         temperature:float|None=None, 
         api_key:str="",

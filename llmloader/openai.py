@@ -4,6 +4,7 @@ from .loader import Loader
 
 class OpenAILoader(Loader):
     def __call__(
+        self,            
         model:str,
         temperature:float|None=None, 
         api_key:str="",

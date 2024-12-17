@@ -10,14 +10,21 @@ loaders = [
     LlamaLoader(),
 ]
 
-def load(model_id:str, temperature:float|None=None, api_key:str="") -> LLM:
+def load(
+    model:str, 
+    temperature:float|None=None, 
+    api_key:str="",
+    max_tokens:int=None,
+    **kwargs
+) -> LLM:
     for loader in loaders:
         try:
-            model = loader(model_id, api_key=api_key, temperature=temperature)
+            llm = loader(model=model, api_key=api_key, temperature=temperature, max_tokens=max_tokens, **kwargs)
         except Exception as e:
+            print(f"Error loading model: {e}")
             continue
 
-        if model is not None:
-            return model
+        if llm is not None:
+            return llm
         
-    raise ValueError(f"Unsupported model: {model_id}")
+    raise ValueError(f"Unsupported model: {model}")
