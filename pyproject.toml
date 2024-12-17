@@ -12,13 +12,17 @@ typer = "^0.12.3"
 langchain = ">=0.2.1"
 langchain-openai = ">=0.1.8"
 langchain-anthropic = "^0.2.4"
-torch = {version = ">=2.2", extras = ["llama"]}
-transformers = {version = ">=4.41.2", extras = ["llama"]}
-bitsandbytes = {version = ">=0.43.1", extras = ["llama"]}
-accelerate = {version = ">=0.31.0", extras = ["llama"]}
 langchain-community = "^0.3.12"
-langchain-huggingface = {version = "^0.1.2", extras = ["llama"]}
 
+torch = {version = ">=2.2", optional = true}
+transformers = {version = ">=4.41.2", optional = true}
+bitsandbytes = {version = ">=0.43.1", optional = true}
+accelerate = {version = ">=0.31.0", optional = true}
+langchain-huggingface = {version = "^0.1.2", optional = true}
+
+
+[tool.poetry.extras]
+llama = ["torch", "transformers", "bitsandbytes", "accelerate", "langchain-huggingface"]
 
 
 [build-system]
