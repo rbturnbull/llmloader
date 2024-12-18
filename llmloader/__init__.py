@@ -17,6 +17,11 @@ def load(
     max_tokens:int=None,
     **kwargs
 ) -> LLM:
+    # If the model isn't a string, then assume it can work as an LLM
+    # This is useful for when the model is already loaded and for testing mock LLMs
+    if not isinstance(model, str):
+        return model
+    
     for loader in loaders:
         try:
             llm = loader(model=model, api_key=api_key, temperature=temperature, max_tokens=max_tokens, **kwargs)
