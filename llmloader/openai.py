@@ -11,7 +11,7 @@ class OpenAILoader(Loader):
         max_tokens:int=None,
         **kwargs
     ) -> LLM|None:
-        if not model.startswith('gpt'):
+        if not model.startswith('gpt') or not model.startswith('o1-'):
             return None
         
         from langchain_openai import ChatOpenAI
