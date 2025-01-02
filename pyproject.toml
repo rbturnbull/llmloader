@@ -5,6 +5,9 @@ description = "Loads a Langchain LLM by model name as a string."
 authors = ["Robert Turnbull <robert.turnbull@unimelb.edu.au>"]
 license = "Apache-2.0"
 readme = "README.rst"
+repository = "https://github.com/rbturnbull/llmloader"
+documentation = "https://github.com/rbturnbull/llmloader"
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
