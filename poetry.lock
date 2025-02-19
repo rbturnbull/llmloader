@@ -3500,4 +3500,4 @@ llama = ["accelerate", "bitsandbytes", "langchain-huggingface", "torch", "transf
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "65ab665afd1e91314dc9984f35f77708109453df3df420239a90be4b00b234e0"
+content-hash = "29f4d3ecdcf9ff658f4399d365937f1e4175e052f094bf84746dc2f8d3288def"
