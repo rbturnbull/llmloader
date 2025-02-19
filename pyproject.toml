@@ -22,6 +22,7 @@ transformers = {version = ">=4.41.2", optional = true}
 bitsandbytes = {version = ">=0.43.1", optional = true}
 accelerate = {version = ">=0.31.0", optional = true}
 langchain-huggingface = {version = "^0.1.2", optional = true}
+langchain-xai = "^0.2.1"
 
 
 [tool.poetry.extras]
