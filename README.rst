@@ -67,4 +67,4 @@ You can test out prompts and models on the command line. Make sure you have your
 Credit
 ==========
 
-`Robert Turnbull<https://robturnbull.com>`_ (Melbourne Data Analytics Platform, University of Melbourne)
+`Robert Turnbull <https://robturnbull.com>`_  (Melbourne Data Analytics Platform, University of Melbourne)
