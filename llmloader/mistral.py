@@ -18,6 +18,8 @@ class MistralLoader(Loader):
         if api_key:
             kwargs['api_key'] = api_key
 
+        temperature = temperature or 0.0
+
         from langchain_mistralai import ChatMistralAI
         return ChatMistralAI(
             model=model,
