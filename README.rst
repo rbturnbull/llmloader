@@ -23,6 +23,9 @@ Load the LLM with the `llmloader.load` function. e.g.
     llm = llmloader.load("grok-2-latest")
     result = llm.invoke("Write me a haiku about love")
 
+    llm = llmloader.load("mistral-small-latest")
+    result = llm.invoke("Write me a haiku about love")
+
     llm = llmloader.load("meta-llama/Llama-3.3-70B-Instruct")
     result = llm.invoke("Write me a haiku about love")
 
