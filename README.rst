@@ -4,6 +4,19 @@ llmloader
 
 Loads a Langchain LLM by model name as a string.
 
+Installation
+============
+
+.. code-block:: bash
+
+    pip install llmloader
+
+Or install from GitHub directly:
+
+.. code-block:: bash
+
+    pip install git+https://github.com/rbturnbull/llmloader.git
+
 
 Usage
 ==========
