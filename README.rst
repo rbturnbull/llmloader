@@ -2,6 +2,11 @@
 llmloader
 =========
 
+|pypi|
+
+.. |pypi| image:: https://img.shields.io/pypi/v/llmloader
+   :target: https://pypi.org/project/llmloader/
+
 Loads a Langchain LLM by model name as a string.
 
 Installation
