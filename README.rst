@@ -29,7 +29,7 @@ Load the LLM with the `llmloader.load` function. e.g.
 CLI
 ==========
 
-You can test out prompts and models on the command line.
+You can test out prompts and models on the command line. Make sure you have your API keys set in your environment or add the key with the ``--api-key`` flag.
 
 .. code-block:: bash
     
@@ -37,6 +37,7 @@ You can test out prompts and models on the command line.
     llmloader "Write me a haiku about love" --model gpt-4o
     llmloader "Write me a haiku about love" --model claude-3-5-sonnet-20240620
     llmloader "Write me a haiku about love" --model grok-2-latest
+    llmloader "Write me a haiku about love" --model mistral-small-latest
     llmloader "Write me a haiku about love" --model meta-llama/Meta-Llama-3-8B-Instruct
     llmloader "Write me a haiku about love" --model meta-llama/Llama-3.3-70B-Instruct
     llmloader --help

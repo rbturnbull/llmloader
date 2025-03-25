@@ -4,11 +4,13 @@ from .openai import OpenAILoader
 from .anthropic import AnthropicLoader
 from .llama import LlamaLoader
 from .xai import XAILoader
+from .mistral import MistralLoader
 
 loaders = [
     OpenAILoader(),
     AnthropicLoader(),
     XAILoader(),
+    MistralLoader(),
     LlamaLoader(),
 ]
 
