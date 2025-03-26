@@ -10,7 +10,7 @@ class MistralLoader(Loader):
         max_tokens:int=None,
         **kwargs
     ) -> LLM|None:
-        if not model.startswith('mistral'):
+        if not model.startswith(('mistral', 'pixtral', 'codestral', 'ministral', 'open-mistral')):
             return None
         
         if max_tokens:
