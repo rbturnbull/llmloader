@@ -38,7 +38,7 @@ Load the LLM with the `llmloader.load` function. e.g.
     llm = llmloader.load("claude-3-5-sonnet-20240620")
     result = llm.invoke("Write me a haiku about love")
 
-    llm = llmloader.load("grok-2-latest")
+    llm = llmloader.load("grok-4-latest")
     result = llm.invoke("Write me a haiku about love")
 
     llm = llmloader.load("mistral-small-latest")
@@ -57,7 +57,7 @@ You can test out prompts and models on the command line. Make sure you have your
     llmloader "Write me a haiku about love" --model gpt-4o-mini
     llmloader "Write me a haiku about love" --model gpt-4o
     llmloader "Write me a haiku about love" --model claude-3-5-sonnet-20240620
-    llmloader "Write me a haiku about love" --model grok-2-latest
+    llmloader "Write me a haiku about love" --model grok-4-latest
     llmloader "Write me a haiku about love" --model mistral-small-latest
     llmloader "Write me a haiku about love" --model meta-llama/Meta-Llama-3-8B-Instruct
     llmloader "Write me a haiku about love" --model meta-llama/Llama-3.3-70B-Instruct
