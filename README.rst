@@ -2,10 +2,20 @@
 llmloader
 =========
 
-|pypi|
+.. start-badges
 
-.. |pypi| image:: https://img.shields.io/pypi/v/llmloader
+|pypi| |testing badge| |black badge|
+
+.. |pypi| image:: https://img.shields.io/pypi/v/llmloader?color=blue
    :target: https://pypi.org/project/llmloader/
+
+.. |testing badge| image:: https://github.com/rbturnbull/llmloader/actions/workflows/testing.yml/badge.svg
+    :target: https://github.com/rbturnbull/llmloader/actions
+
+.. |black badge| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+    
+.. end-badges   
 
 Loads a Langchain LLM by model name as a string.
 
