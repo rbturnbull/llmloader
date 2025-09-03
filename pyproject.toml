@@ -31,8 +31,13 @@ llama = ["torch", "transformers", "bitsandbytes", "accelerate", "langchain-huggi
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.4.1"
-coverage = "^7.10.6"
+pytest = ">=8.4.1"
+coverage = ">=7.10.6"
+black = ">=25.1.0"
+
+[tool.black]
+line-length = 120
+skip_string_normalization = true
 
 [build-system]
 requires = ["poetry-core"]
