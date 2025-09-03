@@ -4,7 +4,12 @@ from .loader import Loader
 
 class XAILoader(Loader):
     def __call__(
-        self, model: str, temperature: float | None = None, api_key: str = "", max_tokens: int = None, **kwargs
+        self,
+        model: str,
+        temperature: float | None = None,
+        api_key: str = "",
+        max_tokens: int = None,
+        **kwargs,
     ) -> LLM | None:
         if not model.startswith('grok'):
             return None
