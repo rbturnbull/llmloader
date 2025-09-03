@@ -6,18 +6,14 @@ from .loader import Loader
 
 class HuggingFaceLoader(Loader):
     def __call__(
-        self,            
-        model:str,
-        temperature:float|None=None, 
-        api_key:str="",
-        max_tokens:int=None,
-        **kwargs
-    ) -> LLM|None:
-        """ Adapted from https://www.pinecone.io/learn/llama-2/ """
+        self, model: str, temperature: float | None = None, api_key: str = "", max_tokens: int = None, **kwargs
+    ) -> LLM | None:
+        """Adapted from https://www.pinecone.io/learn/llama-2/"""
 
         model_name = model
 
         import os
+
         os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
         import torch
@@ -70,7 +66,7 @@ class HuggingFaceLoader(Loader):
 
         # device = 0 if torch.cuda.is_available() else -1
         pipeline = transformers.pipeline(
-            model=model, 
+            model=model,
             tokenizer=tokenizer,
             return_full_text=True,  # langchain expects the full text
             task='text-generation',
@@ -82,4 +78,3 @@ class HuggingFaceLoader(Loader):
         llm = HuggingFacePipeline(pipeline=pipeline)
 
         return llm
-

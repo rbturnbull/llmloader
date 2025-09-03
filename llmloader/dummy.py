@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from langchain_core.language_models.llms import LLM
 from langchain_core.outputs import Generation, LLMResult
 
+
 class DummyLLM(LLM):
     """A dummy LLM that just returns the input prompt in .content."""
 
@@ -31,11 +32,11 @@ class DummyLLM(LLM):
 class DummyLoader(Loader):
     def __call__(
         self,
-        model:str,
+        model: str,
         *args,
         **kwargs,
-    ) -> LLM|None:
+    ) -> LLM | None:
         if not model == 'dummy':
             return None
-        
+
         return DummyLLM()

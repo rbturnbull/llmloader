@@ -22,7 +22,7 @@ from .huggingface import HuggingFaceLoader
 
 
 class ChatLlama3(BaseChatModel):
-    llm:HuggingFacePipeline
+    llm: HuggingFacePipeline
 
     @property
     def _llm_type(self) -> str:
@@ -32,8 +32,8 @@ class ChatLlama3(BaseChatModel):
     def _generate(
         self,
         messages: list[BaseMessage],
-        stop: list[str]|None = None,
-        run_manager: CallbackManagerForLLMRun|None = None,
+        stop: list[str] | None = None,
+        run_manager: CallbackManagerForLLMRun | None = None,
         **kwargs,
     ) -> ChatResult:
         llama_messages = []
@@ -51,7 +51,7 @@ class ChatLlama3(BaseChatModel):
 
         terminators = [
             self.llm.pipeline.tokenizer.eos_token_id,
-            self.llm.pipeline.tokenizer.convert_tokens_to_ids("<|eot_id|>")
+            self.llm.pipeline.tokenizer.convert_tokens_to_ids("<|eot_id|>"),
         ]
 
         outputs = self.llm.pipeline(
@@ -66,24 +66,19 @@ class ChatLlama3(BaseChatModel):
         chat_generations = []
 
         chat_generation = ChatGeneration(
-            message=AIMessage(content=result['content'])#, generation_info=g.generation_info
+            message=AIMessage(content=result['content'])  # , generation_info=g.generation_info
         )
         chat_generations.append(chat_generation)
 
         return ChatResult(
-            generations=chat_generations, #llm_output=result['content']
-        )    
+            generations=chat_generations,  # llm_output=result['content']
+        )
 
 
 class LlamaLoader(HuggingFaceLoader):
     def __call__(
-        self,            
-        model:str,
-        temperature:float|None=None, 
-        api_key:str="",
-        max_tokens:int=None,
-        **kwargs
-    ) -> LLM|None:
+        self, model: str, temperature: float | None = None, api_key: str = "", max_tokens: int = None, **kwargs
+    ) -> LLM | None:
         if model.startswith('meta-llama/Meta-Llama') or model.startswith('meta-llama/Llama'):
             llm = super().__call__(
                 model=model,
