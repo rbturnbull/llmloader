@@ -1,5 +1,6 @@
 import typer
 from llmloader import load
+
 from rich.console import Console
 
 
@@ -16,9 +17,15 @@ def main(
 ):
     llm = load(model=model, temperature=temperature, api_key=api_key, max_tokens=max_tokens)
     result = llm.invoke(prompt)
+
+    from langchain_core.messages import BaseMessage
     
     console = Console()
-    console.print(result.content)
-    
-    if all_results:
+    if isinstance(result, BaseMessage):
+        console.print(result.content)
+
+        if all_results:
+            console.print(result)
+
+    else:
         console.print(result)

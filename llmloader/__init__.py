@@ -5,6 +5,7 @@ from .anthropic import AnthropicLoader
 from .llama import LlamaLoader
 from .xai import XAILoader
 from .mistral import MistralLoader
+from .dummy import DummyLoader
 
 loaders = [
     OpenAILoader(),
@@ -12,6 +13,7 @@ loaders = [
     XAILoader(),
     MistralLoader(),
     LlamaLoader(),
+    DummyLoader(),
 ]
 
 def load(
