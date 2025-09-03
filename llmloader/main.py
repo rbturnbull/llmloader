@@ -1,8 +1,7 @@
 import typer
-from llmloader import load
-
+from langchain_core.output_parsers import StrOutputParser
 from rich.console import Console
-
+from llmloader import load
 
 app = typer.Typer()
 
@@ -22,11 +21,9 @@ def main(
     from langchain_core.messages import BaseMessage
 
     console = Console()
-    if isinstance(result, BaseMessage):
-        console.print(result.content)
 
-        if all_results:
-            console.print(result)
+    parser = StrOutputParser()
+    console.print(parser.invoke(result))
 
-    else:
+    if all_results:
         console.print(result)
