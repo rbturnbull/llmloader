@@ -15,7 +15,7 @@ loaders = [
     MistralLoader(),
     LlamaLoader(),
     DummyLoader(),
-    AzureOpenAILoader(),
+    AzureOpenAILoader(), # This needs to be last as it will try to load the model names failed by other loaders
 ]
 
 
