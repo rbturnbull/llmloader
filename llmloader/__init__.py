@@ -1,5 +1,6 @@
 from langchain_core.language_models.llms import LLM
 
+from .azure import AzureOpenAILoader
 from .openai import OpenAILoader
 from .anthropic import AnthropicLoader
 from .llama import LlamaLoader
@@ -7,13 +8,14 @@ from .xai import XAILoader
 from .mistral import MistralLoader
 from .dummy import DummyLoader
 
-loaders = [
-    OpenAILoader(),
+loaders = [    
+    OpenAILoader(),    
     AnthropicLoader(),
     XAILoader(),
     MistralLoader(),
     LlamaLoader(),
     DummyLoader(),
+    AzureOpenAILoader(),
 ]
 
 

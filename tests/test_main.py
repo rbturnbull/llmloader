@@ -13,3 +13,12 @@ def test_main():
     ])
     assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
     assert result.stdout.strip() == "Write me a haiku about love"
+
+def test_azure():
+    result = runner.invoke(app, [
+        "Write me a haiku about love",
+        "--model",
+        "gpt-4.1-nano",
+    ])
+    assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
+    assert result.stdout.strip() != ""
