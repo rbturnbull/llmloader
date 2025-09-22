@@ -1,8 +1,6 @@
 
 from typer.testing import CliRunner
 from llmloader.main import app
-from langchain_core.messages import AIMessage
-import os
 
 runner = CliRunner()
 
