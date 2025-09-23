@@ -76,9 +76,12 @@ You can test out prompts and models on the command line. Make sure you have your
 Environment Variables
 ======================
 To use custom models deployed with Azure OpenAI, you need to set the following environment variables:
+
 - AZURE_OPENAI_API_KEY: Your Azure OpenAI API key.
 - AZURE_OPENAI_API_VERSION: The API version to use (e.g., "2024-02-15-preview").
 - AZURE_OPENAI_ENDPOINT: The endpoint URL for your Azure OpenAI service.
+
+The model name should match the deployment name in your Azure OpenAI resource.
 
 Note: If llmloader detects the OPENAI_API_KEY environment variable, it will use the OpenAI API by default if a valid model name is provided.
     
