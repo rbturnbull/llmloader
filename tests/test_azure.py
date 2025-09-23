@@ -1,7 +1,6 @@
 import llmloader
 from llmloader.openai import OpenAILoader
 from langchain_core.messages import AIMessage
-from unittest.mock import patch, MagicMock
 
 
 def test_azure(azure_mock_setup, credentials):   
