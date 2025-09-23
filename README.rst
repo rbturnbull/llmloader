@@ -83,7 +83,7 @@ To use custom models deployed with Azure OpenAI, you need to set the following e
 
 The model name should match the deployment name in your Azure OpenAI resource.
 
-Note: If `llmloader` detects the OPENAI_API_KEY environment variable, it will use the OpenAI API by default if a valid model name is provided.
+Note: If ``llmloader`` detects the OPENAI_API_KEY environment variable, it will use the OpenAI API by default if a valid model name is provided.
     
 
 Credit
