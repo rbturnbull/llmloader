@@ -81,7 +81,7 @@ To use custom models deployed with Azure OpenAI, you need to set the following e
 - AZURE_OPENAI_API_VERSION: The API version to use (e.g., "2024-02-15-preview").
 - AZURE_OPENAI_ENDPOINT: The endpoint URL for your Azure OpenAI service.
 
-The model name should match the deployment name in your Azure OpenAI resource.
+``--model`` should match the deployment name in your Azure OpenAI resource.
 
 Note: If ``llmloader`` detects the OPENAI_API_KEY environment variable, it will use the OpenAI API by default if a valid model name is provided.
     
