@@ -1,22 +1,13 @@
 from langchain_core.language_models.llms import LLM
 from langchain_community.llms import HuggingFacePipeline
-from langchain.schema import (
-    AIMessage,
+from langchain_core.messages import (
     BaseMessage,
-    HumanMessage,
     SystemMessage,
-)
-from langchain.schema import (
+    HumanMessage,
     AIMessage,
-    BaseMessage,
-    ChatGeneration,
-    ChatResult,
-    HumanMessage,
-    SystemMessage,
 )
-from langchain_core.callbacks.manager import (
-    CallbackManagerForLLMRun,
-)
+from langchain_core.outputs import ChatResult, ChatGeneration
+from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 from langchain_core.language_models import BaseChatModel
 from .huggingface import HuggingFaceLoader
 
