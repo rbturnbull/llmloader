@@ -1,3 +1,4 @@
+import os
 from langchain_core.language_models.llms import LLM
 
 from .loader import Loader
@@ -16,6 +17,9 @@ class OpenAILoader(Loader):
             return None
 
         from langchain_openai import ChatOpenAI
+
+        api_key = api_key or os.getenv("OPENAI_API_KEY", "")
+        api_key = api_key if api_key != "" else None
 
         return ChatOpenAI(
             openai_api_key=api_key,
