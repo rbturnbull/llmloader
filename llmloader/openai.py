@@ -1,6 +1,8 @@
 import os
 from langchain_core.language_models.llms import LLM
 
+from langchain_openai import ChatOpenAI
+
 from .loader import Loader
 
 
@@ -15,8 +17,6 @@ class OpenAILoader(Loader):
     ) -> LLM | None:
         if not model.startswith('gpt') and not model.startswith('o1-'):
             return None
-
-        from langchain_openai import ChatOpenAI
 
         api_key = api_key or os.getenv("OPENAI_API_KEY", "")
         api_key = api_key if api_key != "" else None
