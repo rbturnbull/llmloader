@@ -1,21 +1,25 @@
 from langchain_core.language_models.llms import LLM
 
-from .azure import AzureOpenAILoader
-from .openai import OpenAILoader
 from .anthropic import AnthropicLoader
+from .azure import AzureOpenAILoader
+from .gemini import GeminiLoader
 from .llama import LlamaLoader
-from .xai import XAILoader
 from .mistral import MistralLoader
+from .openai import OpenAILoader
+from .openrouter import OpenRouterLoader
+from .xai import XAILoader
 from .dummy import DummyLoader
 
 loaders = [    
     OpenAILoader(),    
     AnthropicLoader(),
+    GeminiLoader(),
     XAILoader(),
     MistralLoader(),
     LlamaLoader(),
     DummyLoader(),
-    AzureOpenAILoader(), # This needs to be last as it will try to load the model names failed by other loaders
+    AzureOpenAILoader(),
+    OpenRouterLoader(),
 ]
 
 
@@ -29,12 +33,12 @@ def load(model: str, temperature: float | None = None, api_key: str = "", max_to
 
     for loader in loaders:
         try:
-            llm = loader(model=model, api_key=api_key, temperature=temperature, max_tokens=max_tokens, **kwargs)
+            llm = loader(model=model, api_key=api_key, temperature=temperature, max_tokens=max_tokens, **kwargs)            
         except Exception as e:
             errors.append(e)
             continue
 
-        if llm is not None:
+        if llm is not None:                        
             return llm
 
     if not errors:
