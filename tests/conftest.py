@@ -35,10 +35,10 @@ def openrouter_mock_setup(prompt):
         yield openrouter_mock, prompt
 
 @pytest.fixture()
-def force_azure_by_fail_openai(prompt):    
-    prompt = str(prompt)
+def force_azure_by_fail_openai(prompt):        
     # Mock OpenAILoader's __call__ method to return None, forcing fallback to Azure
     with patch("llmloader.openai.OpenAILoader.__call__") as openai_loader_call:
+        prompt = str(prompt)
         openai_loader_call.return_value = None
         # Mock AzureChatOpenAI to return a response without actually calling Azure
         with patch("llmloader.azure.AzureChatOpenAI") as azure_mock:
@@ -46,6 +46,7 @@ def force_azure_by_fail_openai(prompt):
             azure_mock.return_value = azure_mock_client
             azure_mock_client.invoke.return_value = AIMessage(content=prompt)                  
             yield prompt
+            
 
 @pytest.fixture()
 def credentials_azure():

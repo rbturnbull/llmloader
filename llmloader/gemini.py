@@ -4,6 +4,8 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 from .loader import Loader
 
+import os
+
 class GeminiLoader(Loader):
     def __call__(
         self,
