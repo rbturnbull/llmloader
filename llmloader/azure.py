@@ -24,6 +24,9 @@ class AzureOpenAILoader(Loader):
         api_key = api_key if api_key else os.getenv("AZURE_OPENAI_API_KEY", "")
         api_version = kwargs.pop("api_version", os.getenv("AZURE_OPENAI_API_VERSION", "2024-12-01-preview"))
         azure_endpoint = kwargs.pop("api_endpoint", os.getenv("AZURE_OPENAI_ENDPOINT", ""))    
+        
+        if not azure_endpoint:
+            return None
 
         return AzureChatOpenAI(
             azure_deployment=model,
