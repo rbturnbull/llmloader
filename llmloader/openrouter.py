@@ -1,8 +1,5 @@
 import os
 from langchain_core.language_models.llms import LLM
-
-from langchain_openai import ChatOpenAI
-
 from .loader import Loader
 
 
@@ -19,6 +16,8 @@ class OpenRouterLoader(Loader):
         api_key = api_key or os.getenv("OPENROUTER_API_KEY", "")
         api_key = api_key if api_key != "" else None
         open_router_url = os.getenv("OPENROUTER_API_URL", "https://openrouter.ai/api/v1")        
+
+        from langchain_openai import ChatOpenAI
 
         return ChatOpenAI(
             openai_api_key=api_key,

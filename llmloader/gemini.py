@@ -1,10 +1,7 @@
+import os
 from langchain_core.language_models.llms import LLM
-
-from langchain_google_genai import ChatGoogleGenerativeAI
-
 from .loader import Loader
 
-import os
 
 class GeminiLoader(Loader):
     def __call__(
@@ -24,6 +21,8 @@ class GeminiLoader(Loader):
         
         if not api_key:
             return None
+
+        from langchain_google_genai import ChatGoogleGenerativeAI
 
         return ChatGoogleGenerativeAI(
             model=model,

@@ -64,17 +64,34 @@ You can test out prompts and models on the command line. Make sure you have your
 
 .. code-block:: bash
     
-    llmloader "Write me a haiku about love" --model gpt-4o-mini
-    llmloader "Write me a haiku about love" --model gpt-4o
-    llmloader "Write me a haiku about love" --model claude-3-5-sonnet-20240620
+    llmloader "Write me a haiku about love" --model gpt-5-mini
+    llmloader "Write me a haiku about love" --model gpt-5.2
+    llmloader "Write me a haiku about love" --model claude-sonnet-4-5-20250929
     llmloader "Write me a haiku about love" --model grok-4-latest
     llmloader "Write me a haiku about love" --model mistral-small-latest
+    # Using OpenRouter
+    llmloader "Write me a haiku about love" --model openai/gpt-5-mini
+    # Local deployment models
     llmloader "Write me a haiku about love" --model meta-llama/Meta-Llama-3-8B-Instruct
     llmloader "Write me a haiku about love" --model meta-llama/Llama-3.3-70B-Instruct
     llmloader --help
 
 Environment Variables
 ======================
+
+You can pass an API key for the model provider using the command line flag ``--api-key``, kwarg ``api_key=...``, or by setting the appropriate environment variable as described below.
+
+| Model Provider | Environment Variable          |
+|----------------|-------------------------------|
+| OpenAI         | OPENAI_API_KEY                |
+| Anthropic      | ANTHROPIC_API_KEY             |
+| Mistral        | MISTRAL_API_KEY               |
+| XAI            | XAI_API_KEY                   |
+| OpenRouter     | OPENROUTER_API_KEY            |
+| Google         | GOOGLE_API_KEY                |
+
+Azure
+------------
 To use custom models deployed with Azure OpenAI, you need to set the following environment variables:
 
 - AZURE_OPENAI_API_KEY: Your Azure OpenAI API key.

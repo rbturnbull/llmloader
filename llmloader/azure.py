@@ -1,6 +1,4 @@
 from langchain_core.language_models.llms import LLM
-from langchain_openai import AzureChatOpenAI
-
 from .loader import Loader
 
 
@@ -13,7 +11,7 @@ class AzureOpenAILoader(Loader):
         max_tokens: int = None,
         **kwargs,
     ) -> LLM | None:
-        
+        from langchain_openai import AzureChatOpenAI
         from dotenv import load_dotenv
         import os
 
