@@ -97,9 +97,9 @@ Azure
 ------------
 To use custom models deployed with Azure OpenAI, you need to set the following environment variables:
 
-- AZURE_OPENAI_API_KEY: Your Azure OpenAI API key.
-- AZURE_OPENAI_API_VERSION: The API version to use (e.g., "2024-02-15-preview").
-- AZURE_OPENAI_ENDPOINT: The endpoint URL for your Azure OpenAI service.
+- ``AZURE_OPENAI_API_KEY``: Your Azure OpenAI API key.
+- ``AZURE_OPENAI_API_VERSION``: The API version to use (e.g., "2024-02-15-preview").
+- ``AZURE_OPENAI_ENDPOINT``: The endpoint URL for your Azure OpenAI service.
 
 ``--model`` should match the deployment name in your Azure OpenAI resource.
 
@@ -109,4 +109,5 @@ Note: If ``llmloader`` detects the OPENAI_API_KEY environment variable, it will 
 Credit
 ==========
 
-`Robert Turnbull <https://robturnbull.com>`_  (Melbourne Data Analytics Platform, University of Melbourne)
+- `Robert Turnbull <https://robturnbull.com>`_  (Melbourne Data Analytics Platform, University of Melbourne)
+- `James Quang <https://www.linkedin.com/in/jamesquang/?originalSubdomain=au>`_  (Melbourne Data Analytics Platform, University of Melbourne)
