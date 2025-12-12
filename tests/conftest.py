@@ -9,7 +9,7 @@ def prompt():
 
 @pytest.fixture()
 def azure_mock_setup(prompt):
-    with patch("llmloader.azure.AzureChatOpenAI") as azure_mock:
+    with patch("langchain_openai.AzureChatOpenAI") as azure_mock:
         prompt = str(prompt)
         azure_mock_client = MagicMock()
         azure_mock.return_value = azure_mock_client
@@ -18,7 +18,7 @@ def azure_mock_setup(prompt):
 
 @pytest.fixture()
 def gemini_mock_setup(prompt):
-    with patch("llmloader.gemini.ChatGoogleGenerativeAI") as gemini_mock:
+    with patch("langchain_google_genai.ChatGoogleGenerativeAI") as gemini_mock:
         prompt = str(prompt)
         gemini_mock_client = MagicMock()
         gemini_mock.return_value = gemini_mock_client
@@ -27,7 +27,7 @@ def gemini_mock_setup(prompt):
 
 @pytest.fixture()
 def openrouter_mock_setup(prompt):
-    with patch("llmloader.openrouter.ChatOpenAI") as openrouter_mock:
+    with patch("langchain_openai.ChatOpenAI") as openrouter_mock:
         prompt = str(prompt)
         openrouter_mock_client = MagicMock()
         openrouter_mock.return_value = openrouter_mock_client
@@ -41,7 +41,7 @@ def force_azure_by_fail_openai(prompt):
         prompt = str(prompt)
         openai_loader_call.return_value = None
         # Mock AzureChatOpenAI to return a response without actually calling Azure
-        with patch("llmloader.azure.AzureChatOpenAI") as azure_mock:
+        with patch("langchain_openai.AzureChatOpenAI") as azure_mock:
             azure_mock_client = MagicMock()
             azure_mock.return_value = azure_mock_client
             azure_mock_client.invoke.return_value = AIMessage(content=prompt)                  
