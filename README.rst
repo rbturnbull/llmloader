@@ -69,6 +69,7 @@ You can test out prompts and models on the command line. Make sure you have your
     llmloader "Write me a haiku about love" --model claude-sonnet-4-5-20250929
     llmloader "Write me a haiku about love" --model grok-4-latest
     llmloader "Write me a haiku about love" --model mistral-small-latest
+    llmloader "Write me a haiku about love" --model gemini-3-pro-preview
     # Using OpenRouter
     llmloader "Write me a haiku about love" --model openai/gpt-5-mini
     # Local deployment models
