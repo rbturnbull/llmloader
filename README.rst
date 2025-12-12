@@ -82,14 +82,16 @@ Environment Variables
 
 You can pass an API key for the model provider using the command line flag ``--api-key``, kwarg ``api_key=...``, or by setting the appropriate environment variable as described below.
 
-| Model Provider | Environment Variable          |
-|----------------|-------------------------------|
-| OpenAI         | OPENAI_API_KEY                |
-| Anthropic      | ANTHROPIC_API_KEY             |
-| Mistral        | MISTRAL_API_KEY               |
-| XAI            | XAI_API_KEY                   |
-| OpenRouter     | OPENROUTER_API_KEY            |
-| Google         | GOOGLE_API_KEY                |
+================= =========================
+Model Provider    Environment Variable
+================= =========================
+OpenAI            OPENAI_API_KEY
+Anthropic         ANTHROPIC_API_KEY
+Mistral           MISTRAL_API_KEY
+XAI               XAI_API_KEY
+OpenRouter        OPENROUTER_API_KEY
+Google            GOOGLE_API_KEY
+================= =========================
 
 Azure
 ------------
