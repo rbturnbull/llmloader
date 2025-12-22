@@ -1,5 +1,5 @@
-import os
-from langchain_core.language_models.llms import LLM
+from langchain_core.language_models.chat_models import BaseChatModel
+
 from .loader import Loader
 
 
@@ -8,21 +8,21 @@ class GeminiLoader(Loader):
         self,
         model: str,
         temperature: float | None = None,
-        api_key: str = "",
-        max_tokens: int = None,
+        api_key: str | None = "",
+        max_tokens: int | None = None,
         **kwargs,
-    ) -> LLM | None:                        
+    ) -> BaseChatModel | None:            
 
-        api_key = api_key or os.getenv("GOOGLE_API_KEY", "")
-        api_key = api_key if api_key != "" else None
+        if not model.startswith(("gemini", "gemma")):
+            return None
 
-        if not model.startswith("gemini") or model.startswith("gemma"):
+        if self.has_endpoint(**kwargs):
             return None
         
-        if not api_key:
-            return None
+        api_key = self.get_api_key(api_key, "GOOGLE_API_KEY")
+        temperature = temperature or 1.0
 
-        from langchain_google_genai import ChatGoogleGenerativeAI
+        from langchain_google_genai import ChatGoogleGenerativeAI                
 
         return ChatGoogleGenerativeAI(
             model=model,

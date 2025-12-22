@@ -1,5 +1,4 @@
-import os
-from langchain_core.language_models.llms import LLM
+from langchain_core.language_models.chat_models import BaseChatModel
 from .loader import Loader
 
 
@@ -8,22 +7,25 @@ class OpenAILoader(Loader):
         self,
         model: str,
         temperature: float | None = None,
-        api_key: str = "",
-        max_tokens: int = None,
+        api_key: str | None = None,
+        max_tokens: int | None = None,
         **kwargs,
-    ) -> LLM | None:
-        if not model.startswith('gpt') and not model.startswith('o1-'):
-            return None
+    ) -> BaseChatModel | None:
 
-        api_key = api_key or os.getenv("OPENAI_API_KEY", "")
-        api_key = api_key if api_key != "" else None
+        if not model.startswith(('gpt', 'o1-')):
+            return None
 
         from langchain_openai import ChatOpenAI
 
+        if self.has_endpoint(**kwargs):            
+            return None
+
+        api_key = self.get_api_key(api_key, "OPENAI_API_KEY")
+
         return ChatOpenAI(
-            openai_api_key=api_key,
-            temperature=temperature,
-            model_name=model,
+            model=model,
+            api_key=api_key,
+            temperature=temperature,            
             max_tokens=max_tokens,
             **kwargs,
         )
