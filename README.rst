@@ -98,9 +98,9 @@ Azure
 To use custom models deployed with Azure OpenAI, you need to set the following environment variables:
 
 - ``CUSTOM_API_KEY``: Your Azure API key.
-- ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure OpenAI service.
+- ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure AI service.
 
-``--model`` should match the deployment name in your Azure OpenAI resource.
+``--model`` should match the deployment name in your Azure AI resource.
 
 Note: 
 
