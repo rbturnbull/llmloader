@@ -28,3 +28,49 @@ def credentials(model_auth):
     for authdata in model_auth.values():
         authdata.update(base_credentials)
     return model_auth
+
+@pytest.fixture()
+def providers(
+    openai_mock_setup,
+    anthropic_mock_setup,
+    gemini_mock_setup,
+    xai_mock_setup,
+    mistral_mock_setup,
+    llama_mock_setup,
+    azure_mock_setup,
+    openrouter_mock_setup
+):
+    """Pytest fixture that aggregates all model provider mock setups for testing.
+
+    This fixture depends on all individual model mock setup fixtures, ensuring
+    that they are all initialized before running tests that require multiple
+    model providers. Each provider configuration includes its name, mock setup
+    data, and required environment variables.
+
+    Args:
+        openai_mock_setup: Fixture for mocking OpenAI model setup.
+        anthropic_mock_setup: Fixture for mocking Anthropic model setup.
+        gemini_mock_setup: Fixture for mocking Gemini model setup.
+        xai_mock_setup: Fixture for mocking XAI model setup.
+        mistral_mock_setup: Fixture for mocking Mistral model setup.
+        llama_mock_setup: Fixture for mocking LLaMA model setup.
+        azure_mock_setup: Fixture for mocking Azure model setup.
+        openrouter_mock_setup: Fixture for mocking OpenRouter model setup.
+
+    Returns:
+        list: A list of tuples, where each tuple contains:
+            - str: Provider name (e.g., "openai", "anthropic").
+            - tuple: Mock setup data from the corresponding fixture.
+            - list: Required environment variable names for the provider.
+    """
+    data = [
+        ("openai", openai_mock_setup, ["OPENAI_API_KEY"]),
+        ("anthropic", anthropic_mock_setup, ["ANTHROPIC_API_KEY"]),
+        ("gemini", gemini_mock_setup, ["GOOGLE_API_KEY"]),
+        ("xai", xai_mock_setup, ["XAI_API_KEY"]),
+        ("mistral", mistral_mock_setup, ["MISTRAL_API_KEY"]),
+        ("llama", llama_mock_setup, ["HF_AUTH"]),
+        ("azure", azure_mock_setup, ["CUSTOM_API_KEY", "CUSTOM_ENDPOINT"]),
+        ("openrouter", openrouter_mock_setup, ["OPENROUTER_API_KEY"]),
+    ]
+    return data

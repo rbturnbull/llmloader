@@ -5,6 +5,15 @@ runner = CliRunner()
 
 
 def call(model_name: str, prompt: str = "Write me a haiku about love"):
+    """Test helper function to invoke the CLI app with a model and prompt.
+
+    Args:
+        model_name: Name of the LLM model to use for the test.
+        prompt: The prompt to send to the model. Defaults to "Write me a haiku about love".
+
+    Raises:
+        AssertionError: If the command exits with non-zero code or output doesn't match expected prompt.
+    """
     result = runner.invoke(
         app,
         [
@@ -18,23 +27,20 @@ def call(model_name: str, prompt: str = "Write me a haiku about love"):
 
 
 def test_call_dummy():
+    """Test the CLI app with the dummy model provider."""
     call("dummy")
 
 
-def test_call_gemini(gemini_mock_setup, monkeypatch):
-    monkeypatch.setenv("GOOGLE_API_KEY", "dummykey123")
-    _, prompt = gemini_mock_setup
-    call("gemini", prompt)
+def test_call_providers(providers, monkeypatch):
+    """Test the CLI app with multiple provider configurations.
 
-
-def test_call_azure(azure_mock_setup, monkeypatch):
-    monkeypatch.setenv("CUSTOM_API_KEY", "dummykey123")
-    monkeypatch.setenv("CUSTOM_ENDPOINT", "https://dummy-azure-endpoint.open")
-    _, prompt = azure_mock_setup
-    call("azure", prompt)
-
-
-def test_call_openrouter(openrouter_mock_setup, monkeypatch):
-    monkeypatch.setenv("OPENROUTER_API_KEY", "dummykey123")
-    _, prompt = openrouter_mock_setup
-    call("openrouter", prompt)
+    Args:
+        providers: Pytest fixture containing list of provider configurations.
+            Each configuration is a tuple of (name, mock_setup, env_vars).
+        monkeypatch: Pytest fixture for safely setting environment variables.
+    """
+    for name, mock_setup, env_vars in providers:
+        _, prompt = mock_setup
+        for env_var in env_vars:
+            monkeypatch.setenv(env_var, "dummyenv")
+        call(name, prompt)
