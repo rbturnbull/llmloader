@@ -106,7 +106,7 @@ Note:
 
 - If ``llmloader`` detects the ``OPENAI_API_KEY`` environment variable, it will use the OpenAI API by default if a valid model name is provided and ``CUSTOM_ENDPOINT`` is not set.
 - If both ``CUSTOM_API_KEY`` and ``CUSTOM_ENDPOINT`` are set, llmloader will use the Azure service.
-- ``CUSTOM_ENDPOINT`` should be the URL ending with /models, e.g. `https://your-resource-name.openai.azure.com/models`
+- ``CUSTOM_ENDPOINT`` should be the URL ending with /models, e.g. ``https://your-resource-name.openai.azure.com/models``
 
 Endpoint manual testing
 -------------------------
