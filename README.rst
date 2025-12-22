@@ -113,12 +113,15 @@ Endpoint manual testing
 ``test_manual.py`` contains tests for models that require API keys. You can run these tests manually after setting the appropriate environment variables.
 
 Once the environment variables are set, you can run the tests with:
+
 .. code-block:: bash
 
     pytest -m manual
 
 To specify a particular test, use:
+
 .. code-block:: bash
+    
     pytest -m manual tests/test_manual.py::test_name
 
 Credit
