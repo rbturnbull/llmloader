@@ -111,7 +111,7 @@ Note:
 Testing
 ========================
 
-Endpoint Manual testing
+Endpoint Manual Testing
 --------------------------
 
 ``test_manual.py`` contains tests for models that require API keys. You can run these tests manually after setting the appropriate environment variables.
