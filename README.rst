@@ -108,8 +108,12 @@ Note:
 - If both ``CUSTOM_API_KEY`` and ``CUSTOM_ENDPOINT`` are set, llmloader will use the Azure service.
 - ``CUSTOM_ENDPOINT`` should be the URL ending with /models, e.g. ``https://your-resource-name.openai.azure.com/models``
 
-Endpoint manual testing
--------------------------
+Testing
+========================
+
+Endpoint Manual testing
+--------------------------
+
 ``test_manual.py`` contains tests for models that require API keys. You can run these tests manually after setting the appropriate environment variables.
 
 Once the environment variables are set, you can run the tests with:
@@ -121,7 +125,7 @@ Once the environment variables are set, you can run the tests with:
 To specify a particular test, use:
 
 .. code-block:: bash
-    
+
     pytest -m manual tests/test_manual.py::test_name
 
 Credit
