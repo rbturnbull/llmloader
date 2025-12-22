@@ -17,7 +17,7 @@ class OpenAILoader(Loader):
 
         from langchain_openai import ChatOpenAI
 
-        if self.has_endpoint(**kwargs):            
+        if self.has_endpoint(**kwargs):
             return None
 
         api_key = self.get_api_key(api_key, "OPENAI_API_KEY")
@@ -25,7 +25,7 @@ class OpenAILoader(Loader):
         return ChatOpenAI(
             model=model,
             api_key=api_key,
-            temperature=temperature,            
+            temperature=temperature,
             max_tokens=max_tokens,
             **kwargs,
         )

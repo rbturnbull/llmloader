@@ -1,5 +1,6 @@
 import llmloader
 
+
 def test_dummy():
     llm = llmloader.load("dummy")
     result = llm.invoke("Write me a haiku about love")

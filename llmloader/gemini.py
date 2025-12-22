@@ -11,18 +11,18 @@ class GeminiLoader(Loader):
         api_key: str | None = "",
         max_tokens: int | None = None,
         **kwargs,
-    ) -> BaseChatModel | None:            
+    ) -> BaseChatModel | None:
 
         if not model.startswith(("gemini", "gemma")):
             return None
 
         if self.has_endpoint(**kwargs):
             return None
-        
+
         api_key = self.get_api_key(api_key, "GOOGLE_API_KEY")
         temperature = temperature or 1.0
 
-        from langchain_google_genai import ChatGoogleGenerativeAI                
+        from langchain_google_genai import ChatGoogleGenerativeAI
 
         return ChatGoogleGenerativeAI(
             model=model,

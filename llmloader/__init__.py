@@ -31,14 +31,14 @@ def load(model: str, temperature: float | None = None, api_key: str = "", max_to
 
     errors = []
 
-    for loader in loaders:        
+    for loader in loaders:
         try:
             llm = loader(model=model, api_key=api_key, temperature=temperature, max_tokens=max_tokens, **kwargs)
         except Exception as e:
             errors.append(e)
             continue
 
-        if llm is not None:            
+        if llm is not None:
             return llm
 
     if not errors:

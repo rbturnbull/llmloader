@@ -23,7 +23,7 @@ class Loader(ABC):
                 "A custom endpoint is set, ignoring loaders except Azure AI and OpenRouter. "
                 "If this was not intended, do not pass an argument to `endpoint` parameter and ensure that CUSTOM_ENDPOINT is not set in your environment variables.",
                 UserWarning,
-                stacklevel=2
+                stacklevel=2,
             )
         return endpoint
 

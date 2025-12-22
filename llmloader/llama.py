@@ -4,18 +4,19 @@ from .huggingface import HuggingFaceLoader
 
 class LlamaLoader(HuggingFaceLoader):
     def __call__(
-        self, model: str, 
-        temperature: float | None = None, 
-        api_key: str | None = "", 
-        max_tokens: int | None = None, 
+        self,
+        model: str,
+        temperature: float | None = None,
+        api_key: str | None = "",
+        max_tokens: int | None = None,
         **kwargs
-    ) -> BaseChatModel | None:                
+    ) -> BaseChatModel | None:
 
         if not model.startswith(('meta-llama/Meta-Llama', 'meta-llama/Llama')):
-            return None            
-        
+            return None
+
         if self.has_endpoint(**kwargs):
-            return None                  
+            return None
 
         llm = super().__call__(
             model=model,
@@ -28,4 +29,3 @@ class LlamaLoader(HuggingFaceLoader):
         from .llama_model import ChatLlama3
 
         return ChatLlama3(llm=llm)
-        

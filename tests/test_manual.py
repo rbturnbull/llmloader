@@ -15,6 +15,7 @@ from langchain_core.language_models.chat_models import BaseChatModel
 
 logger = logging.getLogger(__name__)
 
+
 def assert_llm_response(model, llm_type: BaseChatModel, prompt="h"):
     """Test that an LLM model loads correctly and returns a valid response.
 
@@ -36,6 +37,7 @@ def assert_llm_response(model, llm_type: BaseChatModel, prompt="h"):
     except Exception as e:
         raise ValueError(f"[red]Error invoking LLM[/]: {e}")
 
+
 def setenv(monkeypatch, key: str):
     """Set an environment variable from .env file for testing.
 
@@ -46,6 +48,7 @@ def setenv(monkeypatch, key: str):
     values = dotenv_values(".env")
     monkeypatch.setenv(key, values.get(key, ""))
 
+
 def test_openai(monkeypatch):
     """Test OpenAI model loading and response generation.
 
@@ -53,8 +56,10 @@ def test_openai(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from langchain_openai import ChatOpenAI
+
     setenv(monkeypatch, "OPENAI_API_KEY")
     assert_llm_response("gpt-4.1-nano", ChatOpenAI)
+
 
 def test_anthropic(monkeypatch):
     """Test Anthropic model loading and response generation.
@@ -63,8 +68,10 @@ def test_anthropic(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from langchain_anthropic import ChatAnthropic
+
     setenv(monkeypatch, "ANTHROPIC_API_KEY")
     assert_llm_response("claude-sonnet-4-5", ChatAnthropic)
+
 
 def test_gemini(monkeypatch):
     """Test Google Gemini model loading and response generation.
@@ -73,8 +80,10 @@ def test_gemini(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from langchain_google_genai import ChatGoogleGenerativeAI
+
     setenv(monkeypatch, "GOOGLE_API_KEY")
     assert_llm_response("gemini-2.5-flash", ChatGoogleGenerativeAI)
+
 
 def test_xai(monkeypatch):
     """Test xAI model loading and response generation.
@@ -83,8 +92,10 @@ def test_xai(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from langchain_openai import ChatOpenAI
+
     setenv(monkeypatch, "XAI_API_KEY")
     assert_llm_response("xai-forefront-1.5", ChatOpenAI)
+
 
 def test_mistral(monkeypatch):
     """Test Mistral AI model loading and response generation.
@@ -93,14 +104,17 @@ def test_mistral(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from langchain_mistralai import ChatMistralAI
+
     setenv(monkeypatch, "MISTRAL_API_KEY")
     assert_llm_response("mistral-small-2506", ChatMistralAI)
+
 
 # Uncomment this to test local Llama models if you have the model downloaded and environment set up
 # def test_llama(monkeypatch):
 #     from llmloader.llama_model import ChatLlama3
 #     setenv(monkeypatch, "HF_AUTH")
 #     assert_llm_response("meta-llama/Llama-3.1-8B-Instruct", ChatLlama3)
+
 
 def test_azure(monkeypatch):
     """Test Azure AI model loading and response generation.
@@ -109,9 +123,11 @@ def test_azure(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from langchain_azure_ai.chat_models import AzureAIChatCompletionsModel
+
     setenv(monkeypatch, "CUSTOM_API_KEY")
     setenv(monkeypatch, "CUSTOM_ENDPOINT")
     assert_llm_response("grok-3-mini", AzureAIChatCompletionsModel)
+
 
 def test_openrouter(monkeypatch):
     """Test OpenRouter model loading and response generation.
@@ -120,8 +136,10 @@ def test_openrouter(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from langchain_openai import ChatOpenAI
+
     setenv(monkeypatch, "OPENROUTER_API_KEY")
     assert_llm_response("openai/gpt-4.1-nano", ChatOpenAI)
+
 
 def test_cli(monkeypatch):
     """Test the CLI application with a custom model endpoint.
@@ -142,16 +160,8 @@ def test_cli(monkeypatch):
     setenv(monkeypatch, "CUSTOM_ENDPOINT")
 
     result = runner.invoke(
-        app,
-        [
-            "Write me a haiku about love. Start the haiku with haiku:",
-            "--model",
-            "gpt-5-mini",
-            "--temperature",
-            "1"
-        ]
+        app, ["Write me a haiku about love. Start the haiku with haiku:", "--model", "gpt-5-mini", "--temperature", "1"]
     )
     assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
     print(f"[green]LLM Response[/]: {result.stdout}")
     assert "haiku" in result.stdout.lower()
-

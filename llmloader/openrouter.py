@@ -7,18 +7,18 @@ class OpenRouterLoader(Loader):
         self,
         model: str,
         temperature: float | None = None,
-        api_key: str | None= None,
+        api_key: str | None = None,
         max_tokens: int | None = None,
         **kwargs,
-    ) -> BaseChatModel | None:        
+    ) -> BaseChatModel | None:
 
         endpoint = self.has_endpoint(**kwargs) or "https://openrouter.ai/api/v1"
-        api_key = self.get_api_key(api_key, "OPENROUTER_API_KEY")                         
+        api_key = self.get_api_key(api_key, "OPENROUTER_API_KEY")
 
         from langchain_openai import ChatOpenAI
 
         return ChatOpenAI(
-            api_key=api_key,            
+            api_key=api_key,
             temperature=temperature,
             model=model,
             max_tokens=max_tokens,

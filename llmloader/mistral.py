@@ -11,13 +11,13 @@ class MistralLoader(Loader):
         max_tokens: int | None = None,
         **kwargs,
     ) -> BaseChatModel | None:
-        
+
         if not model.startswith(('mistral', 'pixtral', 'codestral', 'ministral', 'open-mistral')):
-            return None        
-        
+            return None
+
         if self.has_endpoint(**kwargs):
             return None
-        
+
         api_key = self.get_api_key(api_key, "MISTRAL_API_KEY")
 
         temperature = temperature or 0.0

@@ -11,7 +11,7 @@ class XAILoader(Loader):
         max_tokens: int | None = None,
         **kwargs,
     ) -> BaseChatModel | None:
-        
+
         if not model.startswith('grok'):
             return None
 

@@ -2,6 +2,7 @@ import pytest
 
 pytest_plugins = ["mocks.models"]
 
+
 @pytest.fixture()
 def credentials(model_auth):
     """Pytest fixture providing complete credential configurations for all models.

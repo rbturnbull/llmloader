@@ -62,4 +62,3 @@ class ChatLlama3(BaseChatModel):
         return ChatResult(
             generations=chat_generations,  # llm_output=result['content']
         )
-

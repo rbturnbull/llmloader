@@ -2,6 +2,7 @@ import pytest, contextlib
 from langchain_core.messages import AIMessage
 from unittest.mock import MagicMock, patch
 
+
 @contextlib.contextmanager
 def patch_llm_fn(fn_name: str, **kwargs):
     """Context manager for patching LLM functions with mock implementations.
@@ -29,6 +30,7 @@ def patch_llm_fn(fn_name: str, **kwargs):
         mock_client.invoke.return_value = AIMessage(content=prompt)
         yield mock, prompt
 
+
 @pytest.fixture()
 def prompt():
     """Pytest fixture providing a test prompt string.
@@ -37,6 +39,7 @@ def prompt():
         str: A test prompt asking for a haiku about love.
     """
     return "Write me a haiku about love"
+
 
 @pytest.fixture()
 def model_auth():
@@ -48,10 +51,10 @@ def model_auth():
             provider-specific parameters needed for testing.
     """
     return {
-        "openai":{
+        "openai": {
             "model": "gpt-5.1",
         },
-        "anthropic":{
+        "anthropic": {
             "model": "claude-sonnet-4-5",
         },
         "gemini": {
@@ -75,6 +78,7 @@ def model_auth():
         },
     }
 
+
 @pytest.fixture()
 def openai_mock_setup(prompt):
     """Pytest fixture providing mocked OpenAI ChatOpenAI setup.
@@ -89,6 +93,7 @@ def openai_mock_setup(prompt):
     with patch_llm_fn("langchain_openai.ChatOpenAI", prompt=prompt) as (mock, prompt):
         yield mock, prompt
 
+
 @pytest.fixture()
 def anthropic_mock_setup(prompt):
     """Pytest fixture providing mocked Anthropic ChatAnthropic setup.
@@ -101,7 +106,8 @@ def anthropic_mock_setup(prompt):
             Anthropic model integration.
     """
     with patch_llm_fn("langchain_anthropic.ChatAnthropic", prompt=prompt) as (mock, prompt):
-        yield mock, prompt  
+        yield mock, prompt
+
 
 @pytest.fixture()
 def gemini_mock_setup(prompt):
@@ -117,6 +123,7 @@ def gemini_mock_setup(prompt):
     with patch_llm_fn("langchain_google_genai.ChatGoogleGenerativeAI", prompt=prompt) as (mock, prompt):
         yield mock, prompt
 
+
 @pytest.fixture()
 def xai_mock_setup(prompt):
     """Pytest fixture providing mocked XAI ChatXAI setup.
@@ -131,6 +138,7 @@ def xai_mock_setup(prompt):
     with patch_llm_fn("langchain_xai.ChatXAI", prompt=prompt) as (mock, prompt):
         yield mock, prompt
 
+
 @pytest.fixture()
 def mistral_mock_setup(prompt):
     """Pytest fixture providing mocked Mistral ChatMistralAI setup.
@@ -144,6 +152,7 @@ def mistral_mock_setup(prompt):
     """
     with patch_llm_fn("langchain_mistralai.ChatMistralAI", prompt=prompt) as (mock, prompt):
         yield mock, prompt
+
 
 @pytest.fixture()
 def llama_mock_setup(prompt):
@@ -160,12 +169,15 @@ def llama_mock_setup(prompt):
             Llama model integration.
     """
     with patch("llmloader.llama.HuggingFaceLoader.__call__") as hf_mock:
+
         def init_model(*args, **kwargs):
             model = kwargs.get('model', '')
             return model
+
         hf_mock.side_effect = init_model
         with patch_llm_fn("llmloader.llama_model.ChatLlama3", prompt=prompt) as (mock, prompt):
             yield mock, prompt
+
 
 @pytest.fixture()
 def azure_mock_setup(prompt):
@@ -180,6 +192,7 @@ def azure_mock_setup(prompt):
     """
     with patch_llm_fn("langchain_azure_ai.chat_models.AzureAIChatCompletionsModel", prompt=prompt) as (mock, prompt):
         yield mock, prompt
+
 
 @pytest.fixture()
 def openrouter_mock_setup(prompt):
