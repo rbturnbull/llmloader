@@ -1,4 +1,4 @@
-from langchain_core.language_models.llms import LLM
+from langchain_core.language_models.chat_models import BaseChatModel
 from .loader import Loader
 
 
@@ -7,17 +7,18 @@ class MistralLoader(Loader):
         self,
         model: str,
         temperature: float | None = None,
-        api_key: str = "",
-        max_tokens: int = None,
+        api_key: str | None = None,
+        max_tokens: int | None = None,
         **kwargs,
-    ) -> LLM | None:
+    ) -> BaseChatModel | None:
+
         if not model.startswith(('mistral', 'pixtral', 'codestral', 'ministral', 'open-mistral')):
             return None
 
-        if max_tokens:
-            kwargs['max_tokens'] = max_tokens
-        if api_key:
-            kwargs['api_key'] = api_key
+        if self.has_endpoint(**kwargs):
+            return None
+
+        api_key = self.get_api_key(api_key, "MISTRAL_API_KEY")
 
         temperature = temperature or 0.0
 
@@ -25,6 +26,8 @@ class MistralLoader(Loader):
 
         return ChatMistralAI(
             model=model,
+            api_key=api_key,
+            max_tokens=max_tokens,
             temperature=temperature,
             **kwargs,
         )

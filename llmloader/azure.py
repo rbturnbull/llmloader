@@ -1,37 +1,31 @@
-from langchain_core.language_models.llms import LLM
+from langchain_core.language_models.chat_models import BaseChatModel
 from .loader import Loader
 
 
-class AzureOpenAILoader(Loader):
+class AzureAILoader(Loader):
     def __call__(
         self,
         model: str,
         temperature: float | None = None,
-        api_key: str = "",
-        max_tokens: int = None,
+        api_key: str | None = None,
+        max_tokens: int | None = None,
         **kwargs,
-    ) -> LLM | None:
-        from langchain_openai import AzureChatOpenAI
-        from dotenv import load_dotenv
-        import os
+    ) -> BaseChatModel | None:
 
-        load_dotenv()
-
-        # Sets the variables required by Azure LLM deployment
-        # This is a custom endpoint deployed through Azure AI Foundry, which can include GPT, Grok, DeepSeek, Mistral, etc.
-        api_key = api_key if api_key else os.getenv("AZURE_OPENAI_API_KEY", "")
-        api_version = kwargs.pop("api_version", os.getenv("AZURE_OPENAI_API_VERSION", "2024-12-01-preview"))
-        azure_endpoint = kwargs.pop("api_endpoint", os.getenv("AZURE_OPENAI_ENDPOINT", ""))    
-        
-        if not azure_endpoint:
+        if "/" in model:
             return None
 
-        return AzureChatOpenAI(
-            azure_deployment=model,
-            api_key=api_key,          
-            api_version=api_version,
-            azure_endpoint=azure_endpoint,
-            temperature=temperature,
+        endpoint = self.has_endpoint(**kwargs)
+        credential = self.get_api_key(api_key)
+        kwargs["model_provider"] = "azure_ai"
+
+        from langchain_azure_ai.chat_models import AzureAIChatCompletionsModel
+
+        return AzureAIChatCompletionsModel(
+            model=model,
+            credential=credential,
+            endpoint=endpoint,
             max_tokens=max_tokens,
+            temperature=temperature,
             **kwargs,
         )

@@ -1,58 +1,46 @@
-
 from typer.testing import CliRunner
 from llmloader.main import app
 
 runner = CliRunner()
 
-def test_main():
-    result = runner.invoke(app, [
-        "Write me a haiku about love",
-        "--model",
-        "dummy",
-    ])
-    assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
-    assert result.stdout.strip() == "Write me a haiku about love"
 
+def call(model_name: str, prompt: str = "Write me a haiku about love"):
+    """Test helper function to invoke the CLI app with a model and prompt.
 
-def test_azure(force_azure_by_fail_openai, monkeypatch):    
-    prompt = force_azure_by_fail_openai
-    # Set Azure environment variable to trigger AzureOpenAILoader
-    monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://dummy-azure-endpoint.openai.azure.com/")
-    monkeypatch.setenv("AZURE_OPENAI_API_KEY", "dummykey123")
-    
-    result = runner.invoke(app, [
-        prompt,
-        "--model",
-        "gpt-4.1-nano",
-    ])            
-    assert not result.exception, f"Exception occurred: {result.exception}"
+    Args:
+        model_name: Name of the LLM model to use for the test.
+        prompt: The prompt to send to the model. Defaults to "Write me a haiku about love".
+
+    Raises:
+        AssertionError: If the command exits with non-zero code or output doesn't match expected prompt.
+    """
+    result = runner.invoke(
+        app,
+        [
+            prompt,
+            "--model",
+            model_name,
+        ],
+    )
     assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
     assert result.stdout.strip() == prompt
 
-def test_gemini_call(gemini_mock_setup, monkeypatch):
-    _, prompt = gemini_mock_setup
 
-    monkeypatch.setenv("GOOGLE_API_KEY", "dummykey123")
+def test_call_dummy():
+    """Test the CLI app with the dummy model provider."""
+    call("dummy")
 
-    result = runner.invoke(app, [
-        prompt,
-        "--model",
-        "gemini-1.5-flash",
-    ])            
-    assert not result.exception, f"Exception occurred: {result.exception}"
-    assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
-    assert result.stdout.strip() == prompt
 
-def test_openrouter(openrouter_mock_setup, monkeypatch):
-    _, prompt = openrouter_mock_setup
+def test_call_providers(providers, monkeypatch):
+    """Test the CLI app with multiple provider configurations.
 
-    monkeypatch.setenv("OPENROUTER_API_KEY", "dummykey123")
-
-    result = runner.invoke(app, [
-        prompt,
-        "--model",
-        "openrouter-model-name",
-    ])
-    assert not result.exception, f"Exception occurred: {result.exception}"
-    assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
-    assert result.stdout.strip() == prompt
+    Args:
+        providers: Pytest fixture containing list of provider configurations.
+            Each configuration is a tuple of (name, mock_setup, env_vars).
+        monkeypatch: Pytest fixture for safely setting environment variables.
+    """
+    for name, mock_setup, env_vars in providers:
+        _, prompt = mock_setup
+        for env_var in env_vars:
+            monkeypatch.setenv(env_var, "dummyenv")
+        call(name, prompt)

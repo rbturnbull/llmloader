@@ -25,6 +25,7 @@ accelerate = {version = ">=0.31.0", optional = true}
 langchain-huggingface = {version = ">=0.1.2", optional = true}
 langchain-mistralai = ">=0.2.9"
 langchain-google-genai = "^4.0.0"
+langchain-azure-ai = "^1.0.4"
 
 
 [tool.poetry.extras]
@@ -47,3 +48,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 llmloader = "llmloader.main:app"
+
+[tool.pytest.ini_options]
+addopts = "-m 'not manual'"
+markers = [
+    "manual: mark test as manual to only run when specifically requested",
+]

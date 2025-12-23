@@ -1,78 +1,76 @@
-import pytest, warnings
-from langchain_core.messages import AIMessage   
-from unittest.mock import MagicMock, patch
-from dotenv import load_dotenv
+import pytest
+
+pytest_plugins = ["mocks.models"]
+
 
 @pytest.fixture()
-def prompt():
-    return "Write me a haiku about love"
+def credentials(model_auth):
+    """Pytest fixture providing complete credential configurations for all models.
 
-@pytest.fixture()
-def azure_mock_setup(prompt):
-    with patch("langchain_openai.AzureChatOpenAI") as azure_mock:
-        prompt = str(prompt)
-        azure_mock_client = MagicMock()
-        azure_mock.return_value = azure_mock_client
-        azure_mock_client.invoke.return_value = AIMessage(content=prompt)      
-        yield azure_mock, prompt
+    Takes the model authentication configurations and enriches them with common
+    base credentials (api_key, temperature, max_tokens) that are shared across
+    all model providers for testing purposes.
 
-@pytest.fixture()
-def gemini_mock_setup(prompt):
-    with patch("langchain_google_genai.ChatGoogleGenerativeAI") as gemini_mock:
-        prompt = str(prompt)
-        gemini_mock_client = MagicMock()
-        gemini_mock.return_value = gemini_mock_client
-        gemini_mock_client.invoke.return_value = AIMessage(content=prompt)
-        yield gemini_mock, prompt
+    Args:
+        model_auth (dict): The model_auth fixture containing basic model
+            configurations for each provider.
 
-@pytest.fixture()
-def openrouter_mock_setup(prompt):
-    with patch("langchain_openai.ChatOpenAI") as openrouter_mock:
-        prompt = str(prompt)
-        openrouter_mock_client = MagicMock()
-        openrouter_mock.return_value = openrouter_mock_client
-        openrouter_mock_client.invoke.return_value = AIMessage(content=prompt)      
-        yield openrouter_mock, prompt
-
-@pytest.fixture()
-def force_azure_by_fail_openai(prompt):        
-    # Mock OpenAILoader's __call__ method to return None, forcing fallback to Azure
-    with patch("llmloader.openai.OpenAILoader.__call__") as openai_loader_call:
-        prompt = str(prompt)
-        openai_loader_call.return_value = None
-        # Mock AzureChatOpenAI to return a response without actually calling Azure
-        with patch("langchain_openai.AzureChatOpenAI") as azure_mock:
-            azure_mock_client = MagicMock()
-            azure_mock.return_value = azure_mock_client
-            azure_mock_client.invoke.return_value = AIMessage(content=prompt)                  
-            yield prompt
-            
-
-@pytest.fixture()
-def credentials_azure():
-    return {
-        "model": "deployed_model_name",
+    Returns:
+        dict: A dictionary mapping model provider names to their complete
+            credential dictionaries, including both provider-specific settings
+            and common base credentials.
+    """
+    base_credentials = {
+        "api_key": "key123",
         "temperature": 0.7,
-        "api_key": "dummykey123",
         "max_tokens": 100,
-        "api_version": "api_version",
-        "api_endpoint": "api_endpoint",       
-    }  
-
-@pytest.fixture()
-def credentials_gemini():
-    return {
-        "model": "gemini-2.5-flash",
-        "temperature": 0.7,
-        "api_key": "dummykey456",
-        "max_tokens": 100,        
     }
+    for authdata in model_auth.values():
+        authdata.update(base_credentials)
+    return model_auth
 
 @pytest.fixture()
-def credentials_openrouter():
-    return {
-        "model": "openrouter-model-name",
-        "temperature": 0.7,
-        "api_key": "dummykey789",
-        "max_tokens": 100,
-    }   
+def providers(
+    openai_mock_setup,
+    anthropic_mock_setup,
+    gemini_mock_setup,
+    xai_mock_setup,
+    mistral_mock_setup,
+    llama_mock_setup,
+    azure_mock_setup,
+    openrouter_mock_setup
+):
+    """Pytest fixture that aggregates all model provider mock setups for testing.
+
+    This fixture depends on all individual model mock setup fixtures, ensuring
+    that they are all initialized before running tests that require multiple
+    model providers. Each provider configuration includes its name, mock setup
+    data, and required environment variables.
+
+    Args:
+        openai_mock_setup: Fixture for mocking OpenAI model setup.
+        anthropic_mock_setup: Fixture for mocking Anthropic model setup.
+        gemini_mock_setup: Fixture for mocking Gemini model setup.
+        xai_mock_setup: Fixture for mocking XAI model setup.
+        mistral_mock_setup: Fixture for mocking Mistral model setup.
+        llama_mock_setup: Fixture for mocking LLaMA model setup.
+        azure_mock_setup: Fixture for mocking Azure model setup.
+        openrouter_mock_setup: Fixture for mocking OpenRouter model setup.
+
+    Returns:
+        list: A list of tuples, where each tuple contains:
+            - str: Provider name (e.g., "openai", "anthropic").
+            - tuple: Mock setup data from the corresponding fixture.
+            - list: Required environment variable names for the provider.
+    """
+    data = [
+        ("openai", openai_mock_setup, ["OPENAI_API_KEY"]),
+        ("anthropic", anthropic_mock_setup, ["ANTHROPIC_API_KEY"]),
+        ("gemini", gemini_mock_setup, ["GOOGLE_API_KEY"]),
+        ("xai", xai_mock_setup, ["XAI_API_KEY"]),
+        ("mistral", mistral_mock_setup, ["MISTRAL_API_KEY"]),
+        ("llama", llama_mock_setup, ["HF_AUTH"]),
+        ("azure", azure_mock_setup, ["CUSTOM_API_KEY", "CUSTOM_ENDPOINT"]),
+        ("openrouter", openrouter_mock_setup, ["OPENROUTER_API_KEY"]),
+    ]
+    return data

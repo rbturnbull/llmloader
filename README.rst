@@ -97,17 +97,39 @@ Azure
 ------------
 To use custom models deployed with Azure OpenAI, you need to set the following environment variables:
 
-- ``AZURE_OPENAI_API_KEY``: Your Azure OpenAI API key.
-- ``AZURE_OPENAI_API_VERSION``: The API version to use (e.g., "2024-02-15-preview").
-- ``AZURE_OPENAI_ENDPOINT``: The endpoint URL for your Azure OpenAI service.
+- ``CUSTOM_API_KEY``: Your Azure API key.
+- ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure AI service.
 
-``--model`` should match the deployment name in your Azure OpenAI resource.
+``--model`` should match the deployment name in your Azure AI resource.
 
-Note: If ``llmloader`` detects the OPENAI_API_KEY environment variable, it will use the OpenAI API by default if a valid model name is provided.
-    
+Note: 
+
+- If ``llmloader`` detects the ``OPENAI_API_KEY`` environment variable, it will use the OpenAI API by default if a valid model name is provided and ``CUSTOM_ENDPOINT`` is not set.
+- If both ``CUSTOM_API_KEY`` and ``CUSTOM_ENDPOINT`` are set, llmloader will use the Azure service.
+- ``CUSTOM_ENDPOINT`` should be the URL ending with /models, e.g. ``https://your-resource-name.openai.azure.com/models``
+
+Testing
+========================
+
+Endpoint Manual Testing
+--------------------------
+
+``test_manual.py`` contains tests for models that require API keys. You can run these tests manually after setting the appropriate environment variables.
+
+Once the environment variables are set, you can run the tests with:
+
+.. code-block:: bash
+
+    pytest -m manual
+
+To specify a particular test, use:
+
+.. code-block:: bash
+
+    pytest -m manual tests/test_manual.py::test_name
 
 Credit
 ==========
 
 - `Robert Turnbull <https://robturnbull.com>`_  (Melbourne Data Analytics Platform, University of Melbourne)
-- `James Quang <https://www.linkedin.com/in/jamesquang/?originalSubdomain=au>`_  (Melbourne Data Analytics Platform, University of Melbourne)
+- `James Quang <https://www.linkedin.com/in/jamesquang>`_  (Melbourne Data Analytics Platform, University of Melbourne)
