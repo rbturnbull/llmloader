@@ -1,4 +1,5 @@
-from langchain_core.language_models.llms import LLM
+from langchain_core.language_models.chat_models import BaseChatModel
+from .wrappers import LLMWrapper
 
 from .anthropic import AnthropicLoader
 from .azure import AzureAILoader
@@ -23,7 +24,7 @@ loaders = [
 ]
 
 
-def load(model: str, temperature: float | None = None, api_key: str = "", max_tokens: int = None, **kwargs) -> LLM:
+def load(model: str, temperature: float | None = None, api_key: str = "", max_tokens: int | None = None, **kwargs) -> BaseChatModel:
     # If the model isn't a string, then assume it can work as an LLM
     # This is useful for when the model is already loaded and for testing mock LLMs
     if not isinstance(model, str):
