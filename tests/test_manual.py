@@ -9,9 +9,12 @@ import pytest
 
 pytestmark = pytest.mark.manual
 
-import llmloader, logging
+import logging
+
 from dotenv import dotenv_values
 from langchain_core.language_models.chat_models import BaseChatModel
+
+import llmloader
 
 logger = logging.getLogger(__name__)
 
@@ -150,9 +153,10 @@ def test_cli(monkeypatch):
     Args:
         monkeypatch: pytest fixture for setting environment variables.
     """
-    from typer.testing import CliRunner
-    from llmloader.main import app
     from rich import print
+    from typer.testing import CliRunner
+
+    from llmloader.main import app
 
     runner = CliRunner()
 

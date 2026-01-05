@@ -1,13 +1,13 @@
 from langchain_community.llms import HuggingFacePipeline
-from langchain_core.messages import (
-    BaseMessage,
-    SystemMessage,
-    HumanMessage,
-    AIMessage,
-)
-from langchain_core.outputs import ChatResult, ChatGeneration
 from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 from langchain_core.language_models import BaseChatModel
+from langchain_core.messages import (
+    AIMessage,
+    BaseMessage,
+    HumanMessage,
+    SystemMessage,
+)
+from langchain_core.outputs import ChatGeneration, ChatResult
 
 
 class ChatLlama3(BaseChatModel):

@@ -1,10 +1,9 @@
 from collections.abc import Sequence
-from langchain_core.language_models.llms import LLM
-from .loader import Loader
 
-from collections.abc import Sequence
 from langchain_core.language_models.llms import LLM
 from langchain_core.outputs import Generation, LLMResult
+
+from .loader import Loader
 
 
 class DummyLLM(LLM):

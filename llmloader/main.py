@@ -1,6 +1,7 @@
 import typer
 from langchain_core.output_parsers import StrOutputParser
 from rich.console import Console
+
 from llmloader import load
 
 app = typer.Typer()
