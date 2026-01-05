@@ -18,7 +18,8 @@ class Loader(ABC):
         raise NotImplementedError
 
     def has_endpoint(self, key_env: str = "CUSTOM_ENDPOINT", kwargs: dict = {}) -> str | None:
-        endpoint = kwargs.get("endpoint", os.getenv(key_env, None))
+        endpoint = kwargs.get("endpoint", "")
+        endpoint = os.getenv(key_env, "") if not endpoint else endpoint
         if endpoint:
             warnings.warn(
                 "A custom endpoint is set, ignoring loaders except Azure AI and OpenRouter. "
