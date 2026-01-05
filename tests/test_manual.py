@@ -19,7 +19,7 @@ import llmloader
 logger = logging.getLogger(__name__)
 
 
-def assert_llm_response(model, llm_type: BaseChatModel, prompt="h"):
+def assert_llm_response(model, llm_type: type[BaseChatModel], prompt="h"):
     """Test that an LLM model loads correctly and returns a valid response.
 
     Args:
