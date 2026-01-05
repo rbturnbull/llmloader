@@ -57,6 +57,37 @@ Load the LLM with the `llmloader.load` function. e.g.
     llm = llmloader.load("meta-llama/Llama-3.3-70B-Instruct")
     result = llm.invoke("Write me a haiku about love")
 
+To pass an image, it needs to be base64 encoded, and reformatted with LLMWrapper.
+
+.. code-block:: python
+    
+    import base64
+    from langchain_core.messages import HumanMessage
+    from llmloader.wrappers import LLMWrapper
+
+    with open("path/to/image.png", "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+
+    formatted_image = LLMWrapper.format(llm, "image", {
+        "data": encoded_string,
+        "mime_type": "image/png"
+    })
+
+    message = HumanMessage(content=[{"type": "text", "text": "Here is an image for you:"}, formatted_image])    
+
+    result = llm.invoke(message)
+
+Get the token usage
+
+.. code-block:: python
+        
+    from llmloader.wrappers import LLMWrapper
+
+    result = llm.invoke(message)
+
+    LLMWrapper.get_token_count("path/to/record.yaml", result.metadata)
+
+
 CLI
 ==========
 
