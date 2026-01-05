@@ -51,6 +51,8 @@ build-backend = "poetry.core.masonry.api"
 llmloader = "llmloader.main:app"
 
 [tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
 addopts = "-m 'not manual'"
 markers = [
     "manual: mark test as manual to only run when specifically requested",

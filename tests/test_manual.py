@@ -144,7 +144,7 @@ def test_openrouter(monkeypatch):
     assert_llm_response("openai/gpt-4.1-nano", ChatOpenAI)
 
 
-def test_cli(monkeypatch):
+def test_cli(monkeypatch, capsys):
     """Test the CLI application with a custom model endpoint.
 
     Verifies that the CLI can successfully invoke an LLM model, process the request,
@@ -153,7 +153,6 @@ def test_cli(monkeypatch):
     Args:
         monkeypatch: pytest fixture for setting environment variables.
     """
-    from rich import print
     from typer.testing import CliRunner
 
     from llmloader.main import app
@@ -163,9 +162,18 @@ def test_cli(monkeypatch):
     setenv(monkeypatch, "CUSTOM_API_KEY")
     setenv(monkeypatch, "CUSTOM_ENDPOINT")
 
-    result = runner.invoke(
-        app, ["Write me a haiku about love. Start the haiku with haiku:", "--model", "gpt-5-mini", "--temperature", "1"]
-    )
-    assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
-    print(f"[green]LLM Response[/]: {result.stdout}")
-    assert "haiku" in result.stdout.lower()
+    with capsys.disabled():  # disable capture so that runner can access stdout
+        result = runner.invoke(
+            app,
+            [
+                "Write me a haiku about love. Start the haiku with haiku:",
+                "--model",
+                "mistralai/devstral-2512:free",
+                "--temperature",
+                "1",
+                "--count",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert "haiku" in result.stdout.lower()
