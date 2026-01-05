@@ -16,7 +16,7 @@ class GeminiLoader(Loader):
         if not model.startswith(("gemini", "gemma")):
             return None
 
-        if self.has_endpoint(**kwargs):
+        if self.has_endpoint(kwargs=kwargs):
             return None
 
         api_key = self.get_api_key(api_key, "GOOGLE_API_KEY")

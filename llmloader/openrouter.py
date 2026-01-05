@@ -13,7 +13,7 @@ class OpenRouterLoader(Loader):
         **kwargs,
     ) -> BaseChatModel | None:
 
-        endpoint = self.has_endpoint(**kwargs) or "https://openrouter.ai/api/v1"
+        endpoint = self.has_endpoint(kwargs=kwargs) or "https://openrouter.ai/api/v1"
         api_key = self.get_api_key(api_key, "OPENROUTER_API_KEY")
 
         from langchain_openai import ChatOpenAI
