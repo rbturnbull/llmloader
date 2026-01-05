@@ -85,7 +85,7 @@ Get the token usage
 
     result = llm.invoke(message)
 
-    LLMWrapper.get_token_count("path/to/record.yaml", result.metadata)
+    count = LLMWrapper.get_token_count(result.metadata, record="optional_path/to/record.yaml")
 
 
 CLI
