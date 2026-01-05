@@ -126,7 +126,7 @@ Google            GOOGLE_API_KEY
 
 Azure and OpenRouter
 ------------
-To use custom models deployed with Azure OpenAI, you need to set the following environment variables:
+To use custom models deployed with Azure OpenAI or OpenRouter, you need to set the following environment variables:
 
 - ``CUSTOM_API_KEY``: Your Azure or OpenRouter API key.
 - ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure AI or OpenRouter service.
