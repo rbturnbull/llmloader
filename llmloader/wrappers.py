@@ -2,6 +2,7 @@ from pathlib import Path
 
 import yaml
 from langchain_core.language_models.chat_models import BaseChatModel
+from langchain_core.messages import AIMessage
 
 __all__ = ["LLMWrapper"]
 
@@ -56,7 +57,7 @@ class LLMWrapper:
         return formatter(data)
 
     @staticmethod
-    def get_token_count(response_metadata: dict, record: Path | str = "") -> dict:
+    def get_token_count(response_metadata: AIMessage | dict, record: Path | str = "") -> dict:
         """Track and accumulate token usage to a YAML file.
 
         Extracts token usage information from response metadata and optionally
@@ -76,11 +77,14 @@ class LLMWrapper:
             A dictionary containing the token usage from the current response
             with keys "input_tokens", "output_tokens", and "total_tokens".
         """
+        response_metadata = (
+            response_metadata.response_metadata if isinstance(response_metadata, AIMessage) else response_metadata
+        )
         token_usage = response_metadata.get("token_usage", {})
         new_record = {
-            "input_tokens": token_usage.get("input_tokens", 0),
-            "output_tokens": token_usage.get("output_tokens", 0),
-            "total_tokens": token_usage.get("total_tokens", 0),
+            "input_tokens": token_usage.get("input_tokens", 0) or token_usage.get("prompt_tokens", 0),
+            "output_tokens": token_usage.get("output_tokens", 0) or token_usage.get("completion_tokens", 0),
+            "total_tokens": token_usage.get("total_tokens", 0) or token_usage.get("all_tokens", 0),
         }
         if record:
             record = Path(record)
