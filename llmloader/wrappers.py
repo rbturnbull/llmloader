@@ -86,15 +86,4 @@ class LLMWrapper:
             "output_tokens": token_usage.get("output_tokens", 0) or token_usage.get("completion_tokens", 0),
             "total_tokens": token_usage.get("total_tokens", 0) or token_usage.get("all_tokens", 0),
         }
-        if record:
-            record = Path(record)
-            data = dict()
-            if record.exists():
-                with open(record, "r") as f:
-                    data = yaml.safe_load(f) or dict()
-            for key, value in new_record.items():
-                data[key] = value + data.get(key, 0)
-            record.parent.mkdir(parents=True, exist_ok=True)
-            with open(record, "w") as f:
-                yaml.dump(data, f)
         return new_record
