@@ -9,14 +9,17 @@ import pytest
 
 pytestmark = pytest.mark.manual
 
-import llmloader, logging
+import logging
+
 from dotenv import dotenv_values
 from langchain_core.language_models.chat_models import BaseChatModel
+
+import llmloader
 
 logger = logging.getLogger(__name__)
 
 
-def assert_llm_response(model, llm_type: BaseChatModel, prompt="h"):
+def assert_llm_response(model, llm_type: type[BaseChatModel], prompt="h"):
     """Test that an LLM model loads correctly and returns a valid response.
 
     Args:
@@ -141,7 +144,7 @@ def test_openrouter(monkeypatch):
     assert_llm_response("openai/gpt-4.1-nano", ChatOpenAI)
 
 
-def test_cli(monkeypatch):
+def test_cli(monkeypatch, capsys):
     """Test the CLI application with a custom model endpoint.
 
     Verifies that the CLI can successfully invoke an LLM model, process the request,
@@ -151,17 +154,26 @@ def test_cli(monkeypatch):
         monkeypatch: pytest fixture for setting environment variables.
     """
     from typer.testing import CliRunner
+
     from llmloader.main import app
-    from rich import print
 
     runner = CliRunner()
 
     setenv(monkeypatch, "CUSTOM_API_KEY")
     setenv(monkeypatch, "CUSTOM_ENDPOINT")
 
-    result = runner.invoke(
-        app, ["Write me a haiku about love. Start the haiku with haiku:", "--model", "gpt-5-mini", "--temperature", "1"]
-    )
-    assert result.exit_code == 0, f"{result.stdout}, {result.exception}"
-    print(f"[green]LLM Response[/]: {result.stdout}")
-    assert "haiku" in result.stdout.lower()
+    with capsys.disabled():  # disable capture so that runner can access stdout
+        result = runner.invoke(
+            app,
+            [
+                "Write me a haiku about love. Start the haiku with haiku:",
+                "--model",
+                "mistralai/devstral-2512:free",
+                "--temperature",
+                "1",
+                "--count",
+            ],
+        )
+
+        assert result.exit_code == 0
+        assert "haiku" in result.stdout.lower()

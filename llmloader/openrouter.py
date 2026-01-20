@@ -1,4 +1,5 @@
 from langchain_core.language_models.chat_models import BaseChatModel
+
 from .loader import Loader
 
 
@@ -12,8 +13,8 @@ class OpenRouterLoader(Loader):
         **kwargs,
     ) -> BaseChatModel | None:
 
-        endpoint = self.has_endpoint(**kwargs) or "https://openrouter.ai/api/v1"
-        api_key = self.get_api_key(api_key, "OPENROUTER_API_KEY")
+        endpoint = self.has_endpoint(kwargs=kwargs) or "https://openrouter.ai/api/v1"
+        api_key = self.get_api_key(api_key)
 
         from langchain_openai import ChatOpenAI
 

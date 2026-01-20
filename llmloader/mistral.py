@@ -1,4 +1,5 @@
 from langchain_core.language_models.chat_models import BaseChatModel
+
 from .loader import Loader
 
 
@@ -15,7 +16,7 @@ class MistralLoader(Loader):
         if not model.startswith(('mistral', 'pixtral', 'codestral', 'ministral', 'open-mistral')):
             return None
 
-        if self.has_endpoint(**kwargs):
+        if self.has_endpoint(kwargs=kwargs):
             return None
 
         api_key = self.get_api_key(api_key, "MISTRAL_API_KEY")

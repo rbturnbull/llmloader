@@ -1,4 +1,5 @@
 from langchain_core.language_models.chat_models import BaseChatModel
+
 from .loader import Loader
 
 
@@ -17,7 +18,7 @@ class OpenAILoader(Loader):
 
         from langchain_openai import ChatOpenAI
 
-        if self.has_endpoint(**kwargs):
+        if self.has_endpoint(kwargs=kwargs):
             return None
 
         api_key = self.get_api_key(api_key, "OPENAI_API_KEY")

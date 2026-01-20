@@ -1,4 +1,5 @@
 from langchain_core.language_models.chat_models import BaseChatModel
+
 from .huggingface import HuggingFaceLoader
 
 
@@ -15,7 +16,7 @@ class LlamaLoader(HuggingFaceLoader):
         if not model.startswith(('meta-llama/Meta-Llama', 'meta-llama/Llama')):
             return None
 
-        if self.has_endpoint(**kwargs):
+        if self.has_endpoint(kwargs=kwargs):
             return None
 
         llm = super().__call__(

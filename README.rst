@@ -57,6 +57,37 @@ Load the LLM with the `llmloader.load` function. e.g.
     llm = llmloader.load("meta-llama/Llama-3.3-70B-Instruct")
     result = llm.invoke("Write me a haiku about love")
 
+To pass an image, it needs to be base64 encoded, and reformatted with LLMWrapper.
+
+.. code-block:: python
+    
+    import base64
+    from langchain_core.messages import HumanMessage
+    from llmloader.wrappers import LLMWrapper
+
+    with open("path/to/image.png", "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+
+    formatted_image = LLMWrapper.format(llm, "image", {
+        "data": encoded_string,
+        "mime_type": "image/png"
+    })
+
+    message = HumanMessage(content=[{"type": "text", "text": "Here is an image for you:"}, formatted_image])    
+
+    result = llm.invoke(message)
+
+Get the token usage
+
+.. code-block:: python
+        
+    from llmloader.wrappers import LLMWrapper
+
+    result = llm.invoke(message)
+
+    count = LLMWrapper.get_token_count(result, record="optional_path/to/record.yaml")
+
+
 CLI
 ==========
 
@@ -93,19 +124,21 @@ OpenRouter        OPENROUTER_API_KEY
 Google            GOOGLE_API_KEY
 ================= =========================
 
-Azure
+Azure and OpenRouter
 ------------
-To use custom models deployed with Azure OpenAI, you need to set the following environment variables:
+To use custom models deployed with Azure OpenAI or OpenRouter, you need to set the following environment variables:
 
-- ``CUSTOM_API_KEY``: Your Azure API key.
-- ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure AI service.
+- ``CUSTOM_API_KEY``: Your Azure or OpenRouter API key.
+- ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure AI or OpenRouter service.
+
+Alternatively, you can pass the endpoint URL directly using the ``--endpoint`` flag.
 
 ``--model`` should match the deployment name in your Azure AI resource.
 
 Note: 
 
 - If ``llmloader`` detects the ``OPENAI_API_KEY`` environment variable, it will use the OpenAI API by default if a valid model name is provided and ``CUSTOM_ENDPOINT`` is not set.
-- If both ``CUSTOM_API_KEY`` and ``CUSTOM_ENDPOINT`` are set, llmloader will use the Azure service.
+- If both ``CUSTOM_API_KEY`` and ``CUSTOM_ENDPOINT`` are set, llmloader will use the Azure or OpenRouter service.
 - ``CUSTOM_ENDPOINT`` should be the URL ending with /models, e.g. ``https://your-resource-name.openai.azure.com/models``
 
 Testing

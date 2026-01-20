@@ -1,4 +1,5 @@
 from langchain_core.language_models.chat_models import BaseChatModel
+
 from .loader import Loader
 
 
@@ -15,7 +16,7 @@ class AzureAILoader(Loader):
         if "/" in model:
             return None
 
-        endpoint = self.has_endpoint(**kwargs)
+        endpoint = self.has_endpoint(kwargs=kwargs)
         credential = self.get_api_key(api_key)
         kwargs["model_provider"] = "azure_ai"
 

@@ -29,6 +29,7 @@ def credentials(model_auth):
         authdata.update(base_credentials)
     return model_auth
 
+
 @pytest.fixture()
 def providers(
     openai_mock_setup,
@@ -38,7 +39,7 @@ def providers(
     mistral_mock_setup,
     llama_mock_setup,
     azure_mock_setup,
-    openrouter_mock_setup
+    openrouter_mock_setup,
 ):
     """Pytest fixture that aggregates all model provider mock setups for testing.
 
@@ -74,3 +75,62 @@ def providers(
         ("openrouter", openrouter_mock_setup, ["OPENROUTER_API_KEY"]),
     ]
     return data
+
+
+@pytest.fixture()
+def azure_llm_mock():
+    """Pytest fixture providing a mock Azure AI LLM instance for wrapper testing.
+
+    Returns:
+        MagicMock: A mock LLM instance with class name 'AzureAIChatCompletionsModel'.
+    """
+    from unittest.mock import MagicMock
+
+    mock_llm = MagicMock()
+    mock_llm.__class__.__name__ = "AzureAIChatCompletionsModel"
+    return mock_llm
+
+
+@pytest.fixture()
+def openai_llm_mock():
+    """Pytest fixture providing a mock OpenAI LLM instance for wrapper testing.
+
+    Returns:
+        MagicMock: A mock LLM instance with class name 'ChatOpenAI'.
+    """
+    from unittest.mock import MagicMock
+
+    mock_llm = MagicMock()
+    mock_llm.__class__.__name__ = "ChatOpenAI"
+    return mock_llm
+
+
+@pytest.fixture()
+def anthropic_llm_mock():
+    """Pytest fixture providing a mock Anthropic LLM instance for wrapper testing.
+
+    Returns:
+        MagicMock: A mock LLM instance with class name 'ChatAnthropic'.
+    """
+    from unittest.mock import MagicMock
+
+    mock_llm = MagicMock()
+    mock_llm.__class__.__name__ = "ChatAnthropic"
+    return mock_llm
+
+
+@pytest.fixture()
+def token_response_metadata():
+    """Pytest fixture providing sample response metadata with token usage.
+
+    Returns:
+        dict: A dictionary containing token usage information with 50 input tokens,
+            100 output tokens, and 150 total tokens.
+    """
+    return {
+        "token_usage": {
+            "input_tokens": 50,
+            "output_tokens": 100,
+            "total_tokens": 150,
+        }
+    }
