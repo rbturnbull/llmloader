@@ -15,6 +15,9 @@ llmloader
 .. |black badge| image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
     
+.. |coverage badge| image:: https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rbturnbull/eba4460b004d5b342cf9e5a724992b44/raw/coverage-badge.json
+    :target: https://rbturnbull.github.io/llmloader/coverage/
+
 .. end-badges   
 
 Loads a Langchain LLM by model name as a string.

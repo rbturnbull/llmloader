@@ -16,7 +16,7 @@ class XAILoader(Loader):
         if not model.startswith('grok'):
             return None
 
-        if self.has_endpoint(**kwargs):
+        if self.has_endpoint(kwargs=kwargs):
             return None
 
         api_key = self.get_api_key(api_key, "XAI_API_KEY")

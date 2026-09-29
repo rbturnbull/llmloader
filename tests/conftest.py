@@ -3,6 +3,29 @@ import pytest
 pytest_plugins = ["mocks.models"]
 
 
+@pytest.fixture(autouse=True)
+def isolate_env(request, monkeypatch):
+    """Pytest fixture that blanks API keys and endpoints in the environment for every non-manual test.
+
+    This ensures that no real credentials are picked up from the environment and that any
+    endpoint written to os.environ by Loader.has_endpoint is undone after each test.
+    """
+    if request.node.get_closest_marker("manual"):
+        return
+    for env_var in [
+        "CUSTOM_ENDPOINT",
+        "CUSTOM_API_KEY",
+        "OPENAI_API_KEY",
+        "ANTHROPIC_API_KEY",
+        "GOOGLE_API_KEY",
+        "XAI_API_KEY",
+        "MISTRAL_API_KEY",
+        "OPENROUTER_API_KEY",
+        "HF_AUTH",
+    ]:
+        monkeypatch.setenv(env_var, "")
+
+
 @pytest.fixture()
 def credentials(model_auth):
     """Pytest fixture providing complete credential configurations for all models.

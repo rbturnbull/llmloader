@@ -45,3 +45,76 @@ def test_call_providers(providers, monkeypatch):
         for env_var in env_vars:
             monkeypatch.setenv(env_var, "dummyenv")
         call(name, prompt)
+
+
+def mock_load(monkeypatch, content: str = "Mock response"):
+    """Test helper that patches llmloader.main.load to return a mock LLM.
+
+    Args:
+        monkeypatch: Pytest fixture for patching attributes.
+        content: The content of the AIMessage returned by the mock LLM.
+
+    Returns:
+        MagicMock: The mock LLM returned by the patched load function.
+    """
+    from unittest.mock import MagicMock
+
+    from langchain_core.messages import AIMessage
+
+    llm = MagicMock()
+    llm.invoke.return_value = AIMessage(
+        content=content,
+        response_metadata={"token_usage": {"prompt_tokens": 3, "completion_tokens": 5, "total_tokens": 8}},
+    )
+    monkeypatch.setattr("llmloader.main.load", MagicMock(return_value=llm))
+    return llm
+
+
+def test_call_count(monkeypatch):
+    """Test that --count prints the token usage of the response."""
+    mock_load(monkeypatch)
+    result = runner.invoke(app, ["prompt", "--count"])
+    assert result.exit_code == 0, result.exception
+    assert "Mock response" in result.stdout
+    assert "'input_tokens': 3" in result.stdout
+    assert "'output_tokens': 5" in result.stdout
+    assert "'total_tokens': 8" in result.stdout
+
+
+def test_call_all_results(monkeypatch):
+    """Test that --all-results prints the full response object."""
+    mock_load(monkeypatch)
+    result = runner.invoke(app, ["prompt", "--all-results"])
+    assert result.exit_code == 0, result.exception
+    assert "AIMessage" in result.stdout
+
+
+def test_call_passes_options(monkeypatch):
+    """Test that the CLI options are passed through to load."""
+    mock_load(monkeypatch)
+    result = runner.invoke(
+        app,
+        [
+            "prompt",
+            "--model",
+            "some-model",
+            "--temperature",
+            "0.5",
+            "--max-tokens",
+            "10",
+            "--api-key",
+            "key123",
+            "--endpoint",
+            "https://custom.endpoint",
+        ],
+    )
+    assert result.exit_code == 0, result.exception
+    from llmloader import main
+
+    main.load.assert_called_once_with(
+        model="some-model",
+        temperature=0.5,
+        api_key="key123",
+        max_tokens=10,
+        endpoint="https://custom.endpoint",
+    )
