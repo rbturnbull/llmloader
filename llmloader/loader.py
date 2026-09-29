@@ -18,7 +18,8 @@ class Loader(ABC):
         raise NotImplementedError
 
     def has_endpoint(self, key_env: str = "CUSTOM_ENDPOINT", kwargs: dict = {}) -> str | None:
-        endpoint = kwargs.get("endpoint", "")
+        # Always remove the endpoint so an empty value isn't passed on to the model
+        endpoint = kwargs.pop("endpoint", "")
         endpoint = os.getenv(key_env, "") if not endpoint else endpoint
         if endpoint:
             warnings.warn(
@@ -28,7 +29,6 @@ class Loader(ABC):
                 stacklevel=2,
             )
             os.environ[key_env] = endpoint
-            kwargs.pop("endpoint", None)
         return endpoint
 
     def get_api_key(self, api_key: str | None = "", key_env: str = "CUSTOM_API_KEY") -> str | None:

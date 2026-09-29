@@ -45,10 +45,10 @@ Load the LLM with the `llmloader.load` function. e.g.
 
     import llmloader
 
-    llm = llmloader.load("gpt-4o")
+    llm = llmloader.load("gpt-6-luna")
     result = llm.invoke("Write me a haiku about love")
 
-    llm = llmloader.load("claude-3-5-sonnet-20240620")
+    llm = llmloader.load("claude-sonnet-5")
     result = llm.invoke("Write me a haiku about love")
 
     llm = llmloader.load("grok-4-latest")
@@ -99,8 +99,8 @@ You can test out prompts and models on the command line. Make sure you have your
 .. code-block:: bash
     
     llmloader "Write me a haiku about love" --model gpt-5-mini
-    llmloader "Write me a haiku about love" --model gpt-5.2
-    llmloader "Write me a haiku about love" --model claude-sonnet-4-5-20250929
+    llmloader "Write me a haiku about love" --model gpt-6-luna
+    llmloader "Write me a haiku about love" --model claude-sonnet-5
     llmloader "Write me a haiku about love" --model grok-4-latest
     llmloader "Write me a haiku about love" --model mistral-small-latest
     llmloader "Write me a haiku about love" --model gemini-3-pro-preview
@@ -127,12 +127,16 @@ OpenRouter        OPENROUTER_API_KEY
 Google            GOOGLE_API_KEY
 ================= =========================
 
-Azure and OpenRouter
-------------
-To use custom models deployed with Azure OpenAI or OpenRouter, you need to set the following environment variables:
+OpenRouter
+----------
+Model names containing a ``/`` (e.g. ``openai/gpt-5-mini``) are loaded through OpenRouter. Set ``OPENROUTER_API_KEY`` or pass ``--api-key``. No endpoint is needed.
 
-- ``CUSTOM_API_KEY``: Your Azure or OpenRouter API key.
-- ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure AI or OpenRouter service.
+Azure and Custom Endpoints
+--------------------------
+To use custom models deployed with Azure OpenAI or another OpenAI-compatible service, you need to set the following environment variables:
+
+- ``CUSTOM_API_KEY``: Your Azure or custom service API key. This takes precedence over ``OPENROUTER_API_KEY``.
+- ``CUSTOM_ENDPOINT``: The endpoint URL for your Azure AI or custom service. ``OPENROUTER_API_KEY`` is never sent to a custom endpoint.
 
 Alternatively, you can pass the endpoint URL directly using the ``--endpoint`` flag.
 

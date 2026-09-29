@@ -155,3 +155,47 @@ def test_huggingface_loader_explicit_args(hf_mocks):
 def test_llama_loader_non_llama_model():
     """Test that LlamaLoader returns None for models that are not Llama models."""
     assert LlamaLoader()(model="gpt-5.1") is None
+
+
+def test_empty_endpoint_not_passed_to_model(openai_mock_setup):
+    """Test that an empty endpoint (as the CLI passes by default) is not forwarded to the model class."""
+    mock, _ = openai_mock_setup
+    llmloader.load("gpt-6-luna", endpoint="")
+    assert "endpoint" not in mock.call_args.kwargs
+
+
+def test_empty_endpoint_not_passed_to_azure(azure_mock_setup, monkeypatch):
+    """Test that an empty endpoint kwarg doesn't clash with the endpoint from the environment for Azure."""
+    mock, _ = azure_mock_setup
+    monkeypatch.setenv("CUSTOM_ENDPOINT", "https://dummy-azure-endpoint.open")
+    with pytest.warns(UserWarning):
+        llmloader.load("deployed_model_name", endpoint="")
+    assert mock.call_args.kwargs["endpoint"] == "https://dummy-azure-endpoint.open"
+
+
+def test_openrouter_uses_openrouter_api_key(openrouter_mock_setup, monkeypatch):
+    """Test that the OpenRouter loader picks up OPENROUTER_API_KEY from the environment."""
+    mock, _ = openrouter_mock_setup
+    monkeypatch.setenv("OPENROUTER_API_KEY", "openrouterkey")
+    llmloader.load("openai/gpt-5-mini", endpoint="")
+    assert mock.call_args.kwargs["api_key"] == "openrouterkey"
+    assert mock.call_args.kwargs["base_url"] == "https://openrouter.ai/api/v1"
+
+
+def test_openrouter_prefers_custom_api_key(openrouter_mock_setup, monkeypatch):
+    """Test that CUSTOM_API_KEY takes precedence over OPENROUTER_API_KEY."""
+    mock, _ = openrouter_mock_setup
+    monkeypatch.setenv("OPENROUTER_API_KEY", "openrouterkey")
+    monkeypatch.setenv("CUSTOM_API_KEY", "customkey")
+    llmloader.load("openai/gpt-5-mini")
+    assert mock.call_args.kwargs["api_key"] == "customkey"
+
+
+def test_openrouter_key_not_sent_to_custom_endpoint(openrouter_mock_setup, monkeypatch):
+    """Test that OPENROUTER_API_KEY is not sent to a custom endpoint that isn't OpenRouter."""
+    mock, _ = openrouter_mock_setup
+    monkeypatch.setenv("OPENROUTER_API_KEY", "openrouterkey")
+    with pytest.warns(UserWarning):
+        llmloader.load("openai/gpt-5-mini", endpoint="https://custom.endpoint")
+    assert mock.call_args.kwargs["api_key"] != "openrouterkey"
+    assert mock.call_args.kwargs["base_url"] == "https://custom.endpoint"

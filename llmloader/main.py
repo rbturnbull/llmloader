@@ -10,8 +10,8 @@ app = typer.Typer()
 @app.command()
 def main(
     prompt: str = typer.Argument(help="Prompt for the model"),
-    model: str = typer.Option("gpt-4o-mini", help="Model Name"),
-    temperature: float = typer.Option(0.1, help="Temperature for sampling"),
+    model: str = typer.Option("gpt-6-luna", help="Model Name"),
+    temperature: float = typer.Option(None, help="Temperature for sampling (defaults to the model's own default)"),
     max_tokens: int = typer.Option(None, help="Max number of tokens to generate"),
     api_key: str = typer.Option("", help="API Key for the model"),
     endpoint: str = typer.Option("", help="Endpoint for the model"),

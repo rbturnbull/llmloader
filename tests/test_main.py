@@ -118,3 +118,25 @@ def test_call_passes_options(monkeypatch):
         max_tokens=10,
         endpoint="https://custom.endpoint",
     )
+
+
+def test_call_default_temperature_is_none(monkeypatch):
+    """Test that no temperature is passed to load unless --temperature is given.
+
+    Some models (e.g. OpenAI reasoning models) reject any temperature other than their default.
+    """
+    mock_load(monkeypatch)
+    result = runner.invoke(app, ["prompt"])
+    assert result.exit_code == 0, result.exception
+    from llmloader import main
+
+    assert main.load.call_args.kwargs["temperature"] is None
+
+
+def test_openai_payload_omits_default_temperature():
+    """Test that an OpenAI model loaded without a temperature doesn't send one in the request payload."""
+    import llmloader
+
+    llm = llmloader.load("gpt-6-luna", api_key="key123", endpoint="")
+    payload = llm._get_request_payload("prompt")
+    assert "temperature" not in payload
