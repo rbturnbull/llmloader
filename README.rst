@@ -4,7 +4,7 @@ llmloader
 
 .. start-badges
 
-|pypi| |testing badge| |black badge|
+|pypi| |testing badge| |black badge| |coverage badge|
 
 .. |pypi| image:: https://img.shields.io/pypi/v/llmloader?color=blue
    :target: https://pypi.org/project/llmloader/
